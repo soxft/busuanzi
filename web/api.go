@@ -15,6 +15,7 @@ func ApiHandler(c *gin.Context) { // test redisHelper
 			"success": false,
 			"message": "empty referer",
 		})
+		return
 	}
 
 	u, err := url.Parse(referer)
@@ -23,6 +24,7 @@ func ApiHandler(c *gin.Context) { // test redisHelper
 			"success": false,
 			"message": "unable to parse referer",
 		})
+		return
 	}
 
 	var host = u.Host

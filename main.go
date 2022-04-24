@@ -23,6 +23,8 @@ func main() {
 	// router
 	r.GET("/api", web.ApiHandler)
 	r.GET("/ping", web.PingHandler)
+
+	// 404 route
 	r.NoRoute(web.NoRouteHandler)
 
 	// debug
