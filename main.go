@@ -10,6 +10,8 @@ import (
 
 func main() {
 
+	// init config
+	config.Init()
 	// init redis pool
 	redisHelper.Pool = redisHelper.NewPool()
 
@@ -21,7 +23,7 @@ func main() {
 	r.NoRoute(web.NoRouteHandler)
 
 	// start server
-	err := r.Run(config.WebAddr)
+	err := r.Run(config.C.Web.Address)
 	if err != nil {
 		fmt.Println("web服务启动失败 > {}", err)
 	}

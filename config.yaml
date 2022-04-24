@@ -1,0 +1,7 @@
+web:
+  address: :8080
+redis:
+  address: 127.0.0.1:6379
+  password:
+  database: 0
+  prefix: bsz
