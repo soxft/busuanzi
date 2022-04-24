@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	C *ConfigStruct
+	C *Parser
 )
 
 func Init() {
@@ -14,8 +14,7 @@ func Init() {
 	if err != nil {
 		panic("Error reading config file")
 	}
-	C = &ConfigStruct{}
-	err = yaml.Unmarshal(data, C)
+	err = yaml.Unmarshal(data, &Parser{})
 	if err != nil {
 		panic("Error parsing config file")
 	}

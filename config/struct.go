@@ -1,6 +1,6 @@
 package config
 
-type ConfigStruct struct {
+type Parser struct {
 	Redis struct {
 		Address  string `yaml:"address"`
 		Password string `yaml:"password"`
@@ -10,4 +10,5 @@ type ConfigStruct struct {
 	Web struct {
 		Address string `yaml:"address"`
 	}
+	Bsz struct{}
 }
