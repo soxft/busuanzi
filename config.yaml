@@ -1,9 +1,10 @@
 web:
-  address: :8080
+  Address: :8080
+  Access-Control-Allow-Origin: "*"
 redis:
-  address: 127.0.0.1:6379
-  password:
-  database: 0
-  prefix: bsz
+  Address: 127.0.0.1:6379
+  Password:
+  Database: 0
+  Prefix: bsz
 bsz:
-  timeout: 10
+  Expire: 10

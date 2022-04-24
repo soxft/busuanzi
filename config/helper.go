@@ -12,11 +12,11 @@ var (
 func Init() {
 	data, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
-		panic("Error reading config file")
+		panic("Error reading config file:\r\n" + err.Error())
 	}
 	C = &Parser{}
 	err = yaml.Unmarshal(data, C)
 	if err != nil {
-		panic("Error parsing config file")
+		panic("Error parsing config file:\r\n" + err.Error())
 	}
 }
