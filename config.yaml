@@ -1,11 +1,11 @@
 web:
-  Address: :8080
+  Address: :8080 # 监听地址
   Access-Control-Allow-Origin: "*"
-  Debug: true
+  Debug: true # 是否开启debug模式
 redis:
-  Address: 127.0.0.1:6379
+  Address: 127.0.0.1:6379 # redis地址
   Password:
   Database: 0
   Prefix: bsz
 bsz:
-  Expire: 2592000
+  Expire: 2592000 # 统计数据过期时间
