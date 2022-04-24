@@ -14,7 +14,8 @@ func Init() {
 	if err != nil {
 		panic("Error reading config file")
 	}
-	err = yaml.Unmarshal(data, &Parser{})
+	C = &Parser{}
+	err = yaml.Unmarshal(data, C)
 	if err != nil {
 		panic("Error parsing config file")
 	}
