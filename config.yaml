@@ -5,3 +5,5 @@ redis:
   password:
   database: 0
   prefix: bsz
+bsz:
+  timeout: 10
