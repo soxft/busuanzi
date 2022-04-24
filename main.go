@@ -15,6 +15,11 @@ func main() {
 	// init redis pool
 	redisHelper.Pool = redisHelper.NewPool()
 
+	// debug
+	if !config.C.Web.Debug {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	r := gin.Default()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
@@ -28,10 +33,6 @@ func main() {
 	r.GET("/ping", web.PingHandler)
 	r.NoRoute(web.NoRouteHandler)
 
-	// debug
-	if !config.C.Web.Debug {
-		gin.SetMode(gin.ReleaseMode)
-	}
 	// start server
 	err := r.Run(config.C.Web.Address)
 	if err != nil {
