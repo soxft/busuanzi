@@ -26,7 +26,7 @@ func main() {
 	r.Use(web.AccessControl())
 
 	r.LoadHTMLFiles("dist/index.html")
-	r.StaticFile("/js", "dist/busuanzi.min.js")
+	r.StaticFile("/js", "dist/busuanzi.js")
 	// router
 	r.GET("/", web.Index)
 	r.GET("/api", web.ApiHandler)

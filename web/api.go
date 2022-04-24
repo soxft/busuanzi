@@ -34,6 +34,19 @@ func ApiHandler(c *gin.Context) { // test redisHelper
 	// count
 	sitePv, siteUv, pagePv, pageUv := core.Count(host, path, ip)
 
+	// return jsonp
+	var query = c.Request.URL.Query()
+	if query.Get("callback") != "" {
+		// return jsonp
+		c.JSONP(200, gin.H{
+			"site_pv": sitePv,
+			"site_uv": siteUv,
+			"page_pv": pagePv,
+			"page_uv": pageUv,
+		})
+		return
+	}
+
 	c.JSON(200, gin.H{
 		"success": true,
 		"message": "ok",
