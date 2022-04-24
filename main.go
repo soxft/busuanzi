@@ -16,6 +16,8 @@ func main() {
 	redisHelper.Pool = redisHelper.NewPool()
 
 	r := gin.Default()
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
 	r.Use(web.AccessControl())
 
 	// router
