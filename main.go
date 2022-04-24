@@ -20,7 +20,10 @@ func main() {
 	r.Use(gin.Recovery())
 	r.Use(web.AccessControl())
 
+	r.LoadHTMLFiles("dist/index.html")
+	r.StaticFile("/js", "dist/busuanzi.min.js")
 	// router
+	r.GET("/", web.Index)
 	r.GET("/api", web.ApiHandler)
 	r.GET("/ping", web.PingHandler)
 	r.NoRoute(web.NoRouteHandler)
