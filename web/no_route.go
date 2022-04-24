@@ -8,7 +8,7 @@ import (
 )
 
 func NoRouteHandler(c *gin.Context) {
-	path := "./build" + c.Request.URL.Path
+	path := "./dist" + c.Request.URL.Path
 	if strings.HasSuffix(path, "/") {
 		path += "index.html"
 	}
