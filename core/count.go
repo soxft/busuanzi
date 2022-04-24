@@ -25,19 +25,24 @@ func Count(host string, path string, ip string) (int, int, int, int) {
 	pagePvKey := redisPrefix + ":page_pv:" + pathUnique
 	pageUvKey := redisPrefix + ":page_uv:" + pathUnique
 
-	// count site pv
-	sitePv, _ := redis.Int(_redis.Do("INCR", sitePvKey))
-
-	// count page pv
-	pagePv, _ := redis.Int(_redis.Do("INCR", pagePvKey))
-
-	// count site uv no repeat
+	// count sitePv ans pagePv use pipeline
+	_, _ = _redis.Do("WATCH", sitePvKey, pagePvKey)
+	_, _ = _redis.Do("MULTI")
+	_, _ = _redis.Do("INCR", sitePvKey)
+	_, _ = _redis.Do("INCR", pagePvKey)
 	_, _ = _redis.Do("SADD", siteUvKey, tool.Md5(ip))
-	siteUv, _ := redis.Int(_redis.Do("SCARD", pageUvKey))
-
-	// count page uv
 	_, _ = _redis.Do("SADD", pageUvKey, tool.Md5(ip))
-	pageUv, _ := redis.Int(_redis.Do("SCARD", pageUvKey))
+	_, _ = redis.Int(_redis.Do("SCARD", siteUvKey))
+	_, _ = redis.Int(_redis.Do("SCARD", pageUvKey))
+	res, err := redis.Values(_redis.Do("EXEC"))
+	if err != nil {
+		return 0, 0, 0, 0
+	}
+
+	sitePv := int(res[0].(int64))
+	pagePv := int(res[1].(int64))
+	siteUv := int(res[4].(int64))
+	pageUv := int(res[5].(int64))
 
 	return sitePv, siteUv, pagePv, pageUv
 }
