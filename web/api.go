@@ -18,7 +18,7 @@ func ApiHandler(c *gin.Context) { // test redisHelper
 	var referer = c.Request.Referer()
 	var ip = c.ClientIP()
 
-	c.JSON(200, map[string]interface{}{
+	c.JSON(200, gin.H{
 		"message": "Hello,  World!",
 		"a":       a,
 		"referer": referer,

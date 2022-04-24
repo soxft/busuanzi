@@ -16,6 +16,7 @@ func main() {
 	redisHelper.Pool = redisHelper.NewPool()
 
 	r := gin.Default()
+	r.Use(web.AccessControl())
 
 	// router
 	r.GET("/api", web.ApiHandler)
