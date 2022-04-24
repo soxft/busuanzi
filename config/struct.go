@@ -10,6 +10,7 @@ type Parser struct {
 	Web struct {
 		Address string `yaml:"Address"`
 		AcAo    string `yaml:"Access-Control-Allow-Origin"`
+		Debug   bool   `yaml:"Debug"`
 	}
 	Bsz struct {
 		Expire int `yaml:"Expire"`

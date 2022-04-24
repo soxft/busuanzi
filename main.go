@@ -25,6 +25,10 @@ func main() {
 	r.GET("/ping", web.PingHandler)
 	r.NoRoute(web.NoRouteHandler)
 
+	// debug
+	if !config.C.Web.Debug {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	// start server
 	err := r.Run(config.C.Web.Address)
 	if err != nil {
