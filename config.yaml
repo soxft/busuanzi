@@ -8,4 +8,4 @@ redis:
   Database: 0
   Prefix: bsz
 bsz:
-  Expire: 10
+  Expire: 2592000

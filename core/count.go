@@ -15,6 +15,8 @@ func Count(host string, path string, ip string) (int, int, int, int) {
 		_ = _redis.Close()
 	}(_redis)
 
+	var keyExpire = config.C.Bsz.Expire
+
 	// encode
 	var pathUnique = tool.Md5(host + path)
 	var siteUnique = tool.Md5(host)
@@ -34,6 +36,10 @@ func Count(host string, path string, ip string) (int, int, int, int) {
 	_, _ = _redis.Do("SADD", pageUvKey, tool.Md5(ip))
 	_, _ = redis.Int(_redis.Do("SCARD", siteUvKey))
 	_, _ = redis.Int(_redis.Do("SCARD", pageUvKey))
+	_, _ = _redis.Do("EXPIRE", sitePvKey, keyExpire)
+	_, _ = _redis.Do("EXPIRE", pagePvKey, keyExpire)
+	_, _ = _redis.Do("EXPIRE", siteUvKey, keyExpire)
+	_, _ = _redis.Do("EXPIRE", pageUvKey, keyExpire)
 	res, err := redis.Values(_redis.Do("EXEC"))
 	if err != nil {
 		return 0, 0, 0, 0
