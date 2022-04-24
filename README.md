@@ -18,6 +18,6 @@
 
 # 基于
 
-  - Golang 1.8
+  - Golang
   - Gin
   - Redis
