@@ -19,6 +19,10 @@
 
 # 基于
 
+<<<<<<< HEAD
   - Golang 1.18
+=======
+  - Golang
+>>>>>>> c255c204c349a97415399d7bff8ac41b227728db
   - Gin
   - Redis
