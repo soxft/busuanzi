@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="基于golang的简易页面访问统计">
     <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-    <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/js/bootstrap.bundle.min.js" type="application/javascript"></script>
-    <!-- 不蒜子 -->
-    <script src="/js" type="application/javascript"></script>
+    <script async src="/js"></script>
     <style>
         a {
             color: gray;
@@ -16,8 +14,10 @@
         }
     </style>
 </head>
+
 <body>
-<div class="container-lg" style="padding-top: 10vh">
+<div style="height:10vh"></div>
+<div class="container-lg">
     <div class="card">
         <div class="card-body">
             <h2 style="text-align: center;">
@@ -46,13 +46,13 @@
         </div>
     </div>
 </div>
-<div style="height:2px"></div>
-<p style="text-align: center">
+<p style="text-align: center; max-width: 95vw; margin: auto; padding-top: 10px;">
     本文总阅读量 <span id="busuanzi_page_pv">-</span> 次
     本文总访客量 <span id="busuanzi_page_uv">-</span> 人
     本站总访问量 <span id="busuanzi_site_pv">-</span> 次
     本站总访客数 <span id="busuanzi_site_uv">-</span> 人
 </p>
+<div style="height:10vh"></div>
 
 <div class="fixed-bottom" style="padding-left: 10px;padding-bottom: 5px;color: gray">
     copyright &copy; xcsoft
