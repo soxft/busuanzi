@@ -1,7 +1,8 @@
 web:
   Address: :8080 # 监听地址
   Access-Control-Allow-Origin: "*"
-  Debug: false # 是否开启debug模式
+  Debug: true # 是否开启debug模式
+  Log: true # 是否开启日志
 redis:
   Address: 127.0.0.1:6379 # redis地址
   Password:

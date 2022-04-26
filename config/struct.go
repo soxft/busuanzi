@@ -11,6 +11,7 @@ type Parser struct {
 		Address string `yaml:"Address"`
 		AcAo    string `yaml:"Access-Control-Allow-Origin"`
 		Debug   bool   `yaml:"Debug"`
+		Log     bool   `yaml:"Log"`
 	}
 	Bsz struct {
 		Expire int `yaml:"Expire"`
