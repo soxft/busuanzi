@@ -20,9 +20,12 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	r := gin.Default()
+	r := gin.New()
 
 	// middleware
+	if config.C.Web.Log {
+		r.Use(gin.Logger())
+	}
 	r.Use(gin.Recovery())
 	r.Use(web.AccessControl())
 
