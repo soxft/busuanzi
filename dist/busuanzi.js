@@ -1,8 +1,8 @@
 var scriptTag;
-var url = "https://busuanzi.9420.ltd/api?callback=BusuanziCallback";
+var url = "http://127.0.0.1:8080/api?callback=BusuanziCallback";
 var tags = ["site_pv", "site_uv", "page_pv", "page_uv"];
 var fetchUrl = function (url, callback) {
-    var str = "BusuanziCallback_" + Math.floor(1099511627776 * Math.random()).toString();
+    var str = "BusuanziCallback_" + Math.random().toString(36).slice(-5);
     window[str] = function (callback) {
         return function (a) {
             try {

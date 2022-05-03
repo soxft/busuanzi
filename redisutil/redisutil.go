@@ -1,12 +1,16 @@
-package redisHelper
+package redisutil
 
 import (
 	"busuanzi/config"
 	"github.com/gomodule/redigo/redis"
 )
 
-func NewPool() *redis.Pool {
-	return &redis.Pool{
+var (
+	Pool *redis.Pool
+)
+
+func init() {
+	Pool = &redis.Pool{
 		MaxIdle:   80,
 		MaxActive: 12000,
 		Dial: func() (redis.Conn, error) {

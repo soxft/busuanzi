@@ -2,7 +2,7 @@ package core
 
 import (
 	"busuanzi/config"
-	"busuanzi/redisHelper"
+	"busuanzi/redisutil"
 	"busuanzi/tool"
 	"github.com/gomodule/redigo/redis"
 )
@@ -10,7 +10,7 @@ import (
 // Count return and count the number of users in the redis
 // @return int,int,int,int site_pv,site_uv,page_pv,page_uv
 func Count(host string, path string, ip string) (int, int, int, int) {
-	var _redis = redisHelper.Pool.Get()
+	var _redis = redisutil.Pool.Get()
 	defer func(_redis redis.Conn) {
 		_ = _redis.Close()
 	}(_redis)
