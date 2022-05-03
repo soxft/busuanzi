@@ -2,19 +2,12 @@ package main
 
 import (
 	"busuanzi/config"
-	"busuanzi/redisHelper"
 	"busuanzi/web"
 	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-
-	// init config
-	config.Init()
-	// init redis pool
-	redisHelper.Pool = redisHelper.NewPool()
-
 	// debug
 	if !config.C.Web.Debug {
 		gin.SetMode(gin.ReleaseMode)

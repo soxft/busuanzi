@@ -1,7 +1,7 @@
 package config
 
 import (
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 )
 
@@ -9,7 +9,7 @@ var (
 	C *Parser
 )
 
-func Init() {
+func init() {
 	data, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
 		panic("Error reading config file:\r\n" + err.Error())
