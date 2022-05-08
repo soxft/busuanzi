@@ -6,9 +6,7 @@ import (
 )
 
 func Md5(s string) string {
-	d := []byte(s)
 	m := md5.New()
-	m.Write(d)
+	m.Write([]byte(s))
 	return hex.EncodeToString(m.Sum(nil))
-
 }
