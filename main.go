@@ -3,8 +3,8 @@ package main
 import (
 	"busuanzi/config"
 	"busuanzi/web"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 func main() {
@@ -28,14 +28,15 @@ func main() {
 
 	// router
 	r.GET("/", web.Index)
-	r.GET("/api", web.ApiHandler)
 	r.GET("/ping", web.PingHandler)
+	r.GET("/api", web.ApiHandler)
+	r.OPTIONS("/api", web.ApiHandler)
 	r.NoRoute(web.NoRouteHandler)
 
 	// start server
-	fmt.Println("server listen on port:", config.C.Web.Address)
+	log.Println("server listen on port:", config.C.Web.Address)
 	err := r.Run(config.C.Web.Address)
 	if err != nil {
-		fmt.Println("web服务启动失败 > {}", err)
+		log.Fatalf("web服务启动失败: %s", err)
 	}
 }

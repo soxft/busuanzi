@@ -1,31 +1,25 @@
-let scriptTag: HTMLScriptElement;
+const bsz_fetch = () => {
+    let url: string = "http://127.0.0.1:8080/api?rand=" + Math.random().toFixed(6);
 
-const url = "https://busuanzi.9420.ltd/api?callback=BusuanziCallback";
-const tags:Array<any> = ["site_pv","site_uv", "page_pv", "page_uv"];
-
-const fetchUrl = (url: string, callback: Function) => {
-    let str: string = "BusuanziCallback_" + Math.random().toString(36).slice(-5)
-    window[str] = function(callback: Function){
-        return function(a) {
-            try {
-                callback(a);
-                scriptTag.parentElement.removeChild(scriptTag)
-            } catch (c) {}
+    let xhr: XMLHttpRequest = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    // post
+    let referer: string = window.location.href;
+    xhr.setRequestHeader("x-bsz-referer", referer);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                let res = JSON.parse(xhr.responseText);
+                if (res.success === true) {
+                    ["site_pv", "site_uv", "page_pv", "page_uv"].map(tag => {
+                        let ele = document.getElementById(`busuanzi_${tag}`);
+                        if (ele) ele.innerHTML = res['data'][tag];
+                    })
+                }
+            }
         }
-    }(callback)
-    scriptTag = document.createElement("script");
-    scriptTag.type = "text/javascript"
-    scriptTag.defer = true;
-    scriptTag.src = url.replace("BusuanziCallback",str);
-    scriptTag.referrerPolicy = "no-referrer-when-downgrade"
-    document.getElementsByTagName("head")[0].appendChild(scriptTag)
-   }
+    }
+    xhr.send();
+}
 
-fetchUrl(url, function(a) {
-    tags.map(tag => {
-        let ele = document.getElementById(`busuanzi_${tag}`);
-        if (ele) {
-            ele.innerHTML = a[tag];
-        }
-    })
-})
+bsz_fetch()

@@ -9,7 +9,12 @@ import (
 func ApiHandler(c *gin.Context) { // test redisHelper
 
 	// get referer url
-	var referer = c.Request.Referer()
+	var referer string
+
+	referer = c.Request.Header.Get("x-bsz-referer")
+	if referer == "" {
+		referer = c.Request.Header.Get("Referer")
+	}
 	if referer == "" {
 		c.JSON(200, gin.H{
 			"success": false,
@@ -47,6 +52,7 @@ func ApiHandler(c *gin.Context) { // test redisHelper
 		return
 	}
 
+	// json
 	c.JSON(200, gin.H{
 		"success": true,
 		"message": "ok",

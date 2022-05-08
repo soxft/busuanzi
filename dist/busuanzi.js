@@ -1,29 +1,24 @@
-var scriptTag;
-var url = "http://127.0.0.1:8080/api?callback=BusuanziCallback";
-var tags = ["site_pv", "site_uv", "page_pv", "page_uv"];
-var fetchUrl = function (url, callback) {
-    var str = "BusuanziCallback_" + Math.random().toString(36).slice(-5);
-    window[str] = function (callback) {
-        return function (a) {
-            try {
-                callback(a);
-                scriptTag.parentElement.removeChild(scriptTag);
+var bsz_fetch = function () {
+    var url = "http://127.0.0.1:8080/api?rand=" + Math.random().toFixed(6);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    // post
+    var referer = window.location.href;
+    xhr.setRequestHeader("x-bsz-referer", referer);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var res_1 = JSON.parse(xhr.responseText);
+                if (res_1.success === true) {
+                    ["site_pv", "site_uv", "page_pv", "page_uv"].map(function (tag) {
+                        var ele = document.getElementById("busuanzi_".concat(tag));
+                        if (ele)
+                            ele.innerHTML = res_1['data'][tag];
+                    });
+                }
             }
-            catch (c) { }
-        };
-    }(callback);
-    scriptTag = document.createElement("script");
-    scriptTag.type = "text/javascript";
-    scriptTag.defer = true;
-    scriptTag.src = url.replace("BusuanziCallback", str);
-    scriptTag.referrerPolicy = "no-referrer-when-downgrade";
-    document.getElementsByTagName("head")[0].appendChild(scriptTag);
-};
-fetchUrl(url, function (a) {
-    tags.map(function (tag) {
-        var ele = document.getElementById("busuanzi_".concat(tag));
-        if (ele) {
-            ele.innerHTML = a[tag];
         }
-    });
-});
+    };
+    xhr.send();
+};
+bsz_fetch();
