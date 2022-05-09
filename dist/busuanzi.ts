@@ -3,7 +3,7 @@ const bsz_fetch = () => {
 
     let xhr: XMLHttpRequest = new XMLHttpRequest();
     xhr.open("GET", url, true);
-    // post
+    
     let referer: string = window.location.href;
     xhr.setRequestHeader("x-bsz-referer", referer);
     xhr.onreadystatechange = function () {
