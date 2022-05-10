@@ -2,7 +2,6 @@ var bsz_fetch = function () {
     var url = "http://127.0.0.1:8080/api?rand=" + Math.random().toFixed(6);
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
-    // post
     var referer = window.location.href;
     xhr.setRequestHeader("x-bsz-referer", referer);
     xhr.onreadystatechange = function () {
