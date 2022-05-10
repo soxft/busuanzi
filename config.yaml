@@ -1,12 +1,14 @@
-web:
-  Address: :8080 # 监听地址
-  Access-Control-Allow-Origin: "*"
+Web:
+  Address: 127.0.0.1:8080 # 监听地址
+  Access-Control-Allow-Origin: "*" # 跨域访问
   Debug: true # 是否开启debug模式
   Log: true # 是否开启日志
-redis:
+Redis:
   Address: 127.0.0.1:6379 # redis地址
   Password:
   Database: 0
-  Prefix: bsz
-bsz:
-  Expire: 2592000 # 统计数据过期时间
+  Prefix: bsz # redis前缀
+  MaxIdle: 25 # 最大空闲连接数
+  MaxActive: 1000 # 最大连接数
+Bsz:
+  Expire: 2592000 # 统计数据过期时间 (无任何访问, 超过这个时间后, 统计数据将被清空)
