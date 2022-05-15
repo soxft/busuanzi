@@ -7,8 +7,8 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-// Count return and count the number of users in the redis
-// @return int,int,int,int site_pv,site_uv,page_pv,page_uv
+// Count
+// @description return and count the number of users in the redis
 func Count(host string, path string, ip string) (int, int, int, int) {
 	var _redis = redisutil.Pool.Get()
 	defer func(_redis redis.Conn) {

@@ -7,18 +7,12 @@ import (
 )
 
 func ApiHandler(c *gin.Context) { // test redisHelper
-
-	// get referer url
-	var referer string
-
-	referer = c.Request.Header.Get("x-bsz-referer")
-	if referer == "" {
-		referer = c.Request.Header.Get("Referer")
-	}
+	var referer = c.Request.Header.Get("x-bsz-referer")
 	if referer == "" {
 		c.JSON(200, gin.H{
 			"success": false,
 			"message": "empty referer",
+			"data":    gin.H{},
 		})
 		return
 	}
@@ -28,6 +22,7 @@ func ApiHandler(c *gin.Context) { // test redisHelper
 		c.JSON(200, gin.H{
 			"success": false,
 			"message": "unable to parse referer",
+			"data":    gin.H{},
 		})
 		return
 	}
@@ -38,19 +33,6 @@ func ApiHandler(c *gin.Context) { // test redisHelper
 
 	// count
 	sitePv, siteUv, pagePv, pageUv := core.Count(host, path, ip)
-
-	// return jsonp
-	var query = c.Request.URL.Query()
-	if query.Get("callback") != "" {
-		// return jsonp
-		c.JSONP(200, gin.H{
-			"site_pv": sitePv,
-			"site_uv": siteUv,
-			"page_pv": pagePv,
-			"page_uv": pageUv,
-		})
-		return
-	}
 
 	// json
 	c.JSON(200, gin.H{

@@ -8,5 +8,6 @@ func NoRouteHandler(c *gin.Context) {
 	c.JSON(404, gin.H{
 		"success": false,
 		"message": "Page not found",
+		"data":    gin.H{},
 	})
 }

@@ -34,6 +34,7 @@ func main() {
 	r.NoRoute(web.NoRouteHandler)
 
 	// start server
+	log.SetOutput(gin.DefaultWriter)
 	log.Println("server listen on port:", config.C.Web.Address)
 	err := r.Run(config.C.Web.Address)
 	if err != nil {
