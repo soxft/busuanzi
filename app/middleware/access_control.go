@@ -8,7 +8,7 @@ import (
 func AccessControl() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", config.C.Web.AcAo)
-		c.Header("Server", "busuanzi-by-xcsoft/1.9")
+		c.Header("Server", "busuanzi-by-xcsoft/2.0")
 		if c.Request.Method == "OPTIONS" {
 			c.Header("Access-Control-Allow-Methods", "GET,POST,HEAD,OPTIONS")
 			c.Header("Access-Control-Allow-Headers", "x-bsz-referer")
