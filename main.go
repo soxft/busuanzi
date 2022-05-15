@@ -29,9 +29,9 @@ func main() {
 
 	// router
 	r.GET("/", controller.Index)
+	r.POST("/", controller.ApiHandler)
+	r.OPTIONS("/", controller.ApiHandler)
 	r.GET("/ping", controller.PingHandler)
-	r.GET("/api", controller.ApiHandler)
-	r.OPTIONS("/api", controller.ApiHandler)
 	r.NoRoute(controller.NoRouteHandler)
 
 	// start server

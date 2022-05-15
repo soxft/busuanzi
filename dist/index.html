@@ -5,56 +5,55 @@
     <title>不蒜子 - powered by xcsoft</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="基于golang的简易页面访问统计">
-    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/11.4.0/styles/atom-one-dark.min.css" type="text/css" rel="stylesheet" />
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/11.4.0/highlight.min.js" type="application/javascript"></script>
+    <script>hljs.highlightAll();</script>
     <script async src="/js"></script>
     <style>
         a {
             color: gray;
             text-decoration: none;
         }
+        h2, h5, p {
+            font-family: STKaiti, serif;
+        }
     </style>
 </head>
 
 <body>
 <div style="height:10vh"></div>
-<div class="container-lg">
+<div class="container">
     <div class="card">
         <div class="card-body">
             <h2 style="text-align: center;">
                 自建 不蒜子 API
             </h2>
-
             <h5>前言: </h5>
             <p style="padding-left: 30px">
                 <a href="https://busuanzi.ibruce.info">不蒜子</a>是一款不错的前端统计工具
-                <br />本站模仿其功能 通过Golang+redis实现功能
-                <br />uv 通过ip统计, pv 通过referer区分, 所有信息仅记录md5, 保证隐私
+                <br />本站模仿其功能 通过Golang+Redis实现功能
+                <br />uv 通过ip统计, pv 通过referer区分, 所有信息仅记录md5
                 <br />演示站点可能会不时清理数据
                 <br />项目使用Apache2.0 开源: <a href="//github.com/soxft/busuanzi">soxft/busuanzi</a>
             </p>
-
-            <br />
-
+            <div style="height:10px"></div>
             <h5>使用: </h5>
-            <p style="background: beige;padding: 10px 30px 10px 30px">
-                &lt;script async src=&quot;https://busuanzi.9420.ltd/js&quot;&gt;&lt;/script&gt;
-                <br />本文总阅读量 &lt;span id=&quot;busuanzi_page_pv&quot;&gt;&lt;/span&gt; 次
-                <br />本文总访客量 &lt;span id=&quot;busuanzi_page_uv&quot;&gt;&lt;/span&gt; 人
-                <br />本站总访问量 &lt;span id=&quot;busuanzi_site_pv&quot;&gt;&lt;/span&gt; 次
-                <br />本站总访客数 &lt;span id=&quot;busuanzi_site_uv&quot;&gt;&lt;/span&gt; 人
-            </p>
+            <pre><code class="language-html" style="border-radius:8px">&lt;script async src=&quot;https://busuanzi.9420.ltd/js&quot;&gt;&lt;/script&gt;
+本文总阅读量 &lt;span id=&quot;busuanzi_page_pv&quot;&gt;&lt;/span&gt; 次
+本文总访客量 &lt;span id=&quot;busuanzi_page_uv&quot;&gt;&lt;/span&gt; 人
+本站总访问量 &lt;span id=&quot;busuanzi_site_pv&quot;&gt;&lt;/span&gt; 次
+本站总访客数 &lt;span id=&quot;busuanzi_site_uv&quot;&gt;&lt;/span&gt; 人</code></pre>
         </div>
     </div>
 </div>
 <p style="text-align: center; max-width: 95vw; margin: auto; padding-top: 10px;">
-    本文总阅读量 <span id="busuanzi_page_pv">-</span> 次
-    本文总访客量 <span id="busuanzi_page_uv">-</span> 人
     本站总访问量 <span id="busuanzi_site_pv">-</span> 次
     本站总访客数 <span id="busuanzi_site_uv">-</span> 人
 </p>
 <div style="height:10vh"></div>
 
-<div class="fixed-bottom" style="padding-left: 10px;padding-bottom: 5px;color: gray">
+<div class="fixed-bottom" style="padding-left: 15px;padding-bottom: 8px;color: gray">
     copyright &copy; xcsoft
 </div>
 </body>

@@ -7,7 +7,7 @@ import (
 func NoRouteHandler(c *gin.Context) {
 	c.JSON(404, gin.H{
 		"success": false,
-		"message": "Page not found",
+		"message": "route not found",
 		"data":    gin.H{},
 	})
 }
