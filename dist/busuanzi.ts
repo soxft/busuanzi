@@ -1,5 +1,5 @@
 (function (){
-    let url: string = "http://127.0.0.1:8080/?rand=" + Math.random();
+    let url: string = "http://127.0.0.1:8080/api?rand=" + Math.random();
     let tags: string[] = ["site_pv", "site_uv", "page_pv", "page_uv"];
 
     let bsz_send: Function = function () {

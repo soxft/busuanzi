@@ -1,5 +1,5 @@
 (function () {
-    var url = "http://127.0.0.1:8080/?rand=" + Math.random();
+    var url = "http://127.0.0.1:8080/api?rand=" + Math.random();
     var tags = ["site_pv", "site_uv", "page_pv", "page_uv"];
     var bsz_send = function () {
         var xhr = new XMLHttpRequest();
