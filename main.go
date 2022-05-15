@@ -1,8 +1,9 @@
 package main
 
 import (
+	"busuanzi/app/controller"
+	"busuanzi/app/middleware"
 	"busuanzi/config"
-	"busuanzi/web"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -20,18 +21,18 @@ func main() {
 		r.Use(gin.Logger())
 	}
 	r.Use(gin.Recovery())
-	r.Use(web.AccessControl())
+	r.Use(middleware.AccessControl())
 
 	// web
 	r.LoadHTMLFiles("dist/index.html")
 	r.StaticFile("/js", "dist/busuanzi.js")
 
 	// router
-	r.GET("/", web.Index)
-	r.GET("/ping", web.PingHandler)
-	r.GET("/api", web.ApiHandler)
-	r.OPTIONS("/api", web.ApiHandler)
-	r.NoRoute(web.NoRouteHandler)
+	r.GET("/", controller.Index)
+	r.GET("/ping", controller.PingHandler)
+	r.GET("/api", controller.ApiHandler)
+	r.OPTIONS("/api", controller.ApiHandler)
+	r.NoRoute(controller.NoRouteHandler)
 
 	// start server
 	log.SetOutput(gin.DefaultWriter)
