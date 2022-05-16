@@ -22,15 +22,20 @@
         }
         xhr.send();
     };
-
-    let history_pushState: Function = window.history.pushState;
-    window.history.pushState = function () {
-        history_pushState.apply(this, arguments);
-        bsz_send();
-    };
-
-    window.addEventListener("popstate", function (_e: PopStateEvent) {
-        bsz_send();
-    }, false);
     bsz_send();
+
+    let current: HTMLOrSVGScriptElement = document.currentScript;
+    let pjax: boolean = current.hasAttribute("data-pjax");
+
+    if (pjax === true) {
+        let history_pushState: Function = window.history.pushState;
+        window.history.pushState = function () {
+            history_pushState.apply(this, arguments);
+            bsz_send();
+        };
+
+        window.addEventListener("popstate", function (_e: PopStateEvent) {
+            bsz_send();
+        }, false);
+    }
 })()
