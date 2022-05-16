@@ -1,5 +1,5 @@
 (function () {
-    var url = "http://127.0.0.1:8080/api?rand=" + Math.random();
+    var url = "http://127.0.0.1:8080/api";
     var tags = ["site_pv", "site_uv", "page_pv", "page_uv"];
     var bsz_send = function () {
         var xhr = new XMLHttpRequest();
@@ -21,13 +21,17 @@
         };
         xhr.send();
     };
-    var history_pushState = window.history.pushState;
-    window.history.pushState = function () {
-        history_pushState.apply(this, arguments);
-        bsz_send();
-    };
-    window.addEventListener("popstate", function (_e) {
-        bsz_send();
-    }, false);
     bsz_send();
+    var current = document.currentScript;
+    var pjax = current.hasAttribute("data-pjax");
+    if (pjax === true) {
+        var history_pushState_1 = window.history.pushState;
+        window.history.pushState = function () {
+            history_pushState_1.apply(this, arguments);
+            bsz_send();
+        };
+        window.addEventListener("popstate", function (_e) {
+            bsz_send();
+        }, false);
+    }
 })();
