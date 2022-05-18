@@ -1,9 +1,8 @@
 (function () {
-    var url = "http://127.0.0.1:8080/api";
-    var tags = ["site_pv", "site_uv", "page_pv", "page_uv"];
+    var url = "http://127.0.0.1:8080/api", tags = ["site_pv", "site_uv", "page_pv", "page_uv"], current = document.currentScript, pjax = current.hasAttribute("data-pjax"), api = current.getAttribute("data-api") || url;
     var bsz_send = function () {
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
+        xhr.open("POST", api, true);
         xhr.setRequestHeader("x-bsz-referer", window.location.href);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
@@ -22,9 +21,7 @@
         xhr.send();
     };
     bsz_send();
-    var current = document.currentScript;
-    var pjax = current.hasAttribute("data-pjax");
-    if (pjax === true) {
+    if (!!pjax) {
         var history_pushState_1 = window.history.pushState;
         window.history.pushState = function () {
             history_pushState_1.apply(this, arguments);

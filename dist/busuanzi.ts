@@ -1,10 +1,13 @@
 (function (){
-    let url: string = "http://127.0.0.1:8080/api";
-    let tags: string[] = ["site_pv", "site_uv", "page_pv", "page_uv"];
+    let url: string = "http://127.0.0.1:8080/api",
+        tags: string[] = ["site_pv", "site_uv", "page_pv", "page_uv"],
+        current: HTMLOrSVGScriptElement = document.currentScript,
+        pjax: boolean = current.hasAttribute("data-pjax"),
+        api: string = current.getAttribute("data-api") || url;
 
     let bsz_send: Function = function () {
         let xhr: XMLHttpRequest = new XMLHttpRequest();
-        xhr.open("POST", url, true);
+        xhr.open("POST", api, true);
 
         xhr.setRequestHeader("x-bsz-referer", window.location.href);
         xhr.onreadystatechange = function () {
@@ -24,10 +27,7 @@
     };
     bsz_send();
 
-    let current: HTMLOrSVGScriptElement = document.currentScript;
-    let pjax: boolean = current.hasAttribute("data-pjax");
-
-    if (pjax === true) {
+    if (!!pjax) {
         let history_pushState: Function = window.history.pushState;
         window.history.pushState = function () {
             history_pushState.apply(this, arguments);
