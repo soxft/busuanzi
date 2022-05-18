@@ -33,16 +33,20 @@ func Count(host string, path string, ip string) (int, int, int, int) {
 
 	siteUv, _ := redis.Int(_redis.Do("SCARD", siteUvKey))
 	pageUv, _ := redis.Int(_redis.Do("SCARD", pageUvKey))
-	setExpire(_redis, sitePvKey, siteUvKey, pagePvKey, pageUvKey)
+	go setExpire(sitePvKey, siteUvKey, pagePvKey, pageUvKey)
 
 	return sitePv, siteUv, pagePv, pageUv
 }
 
-func setExpire(redis redis.Conn, key ...string) {
+func setExpire(key ...string) {
+	var _redis = redisutil.Pool.Get()
+	defer func(_redis redis.Conn) {
+		_ = _redis.Close()
+	}(_redis)
 	// multi-set expire
-	_, _ = redis.Do("MULTI")
+	_, _ = _redis.Do("MULTI")
 	for _, k := range key {
-		_, _ = redis.Do("EXPIRE", k, config.C.Bsz.Expire)
+		_, _ = _redis.Do("EXPIRE", k, config.C.Bsz.Expire)
 	}
-	_, _ = redis.Do("EXEC")
+	_, _ = _redis.Do("EXEC")
 }
