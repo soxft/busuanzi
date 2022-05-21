@@ -6,6 +6,7 @@ import (
 	"busuanzi/config"
 	"github.com/gin-gonic/gin"
 	"log"
+	"os"
 )
 
 func main() {
@@ -35,7 +36,7 @@ func main() {
 	r.NoRoute(controller.NoRouteHandler)
 
 	// start server
-	log.SetOutput(gin.DefaultWriter)
+	log.SetOutput(os.Stdout)
 	log.Println("server listen on port:", config.C.Web.Address)
 	err := r.Run(config.C.Web.Address)
 	if err != nil {
