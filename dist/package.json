@@ -5,6 +5,7 @@
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   },
+  "license": "Apache-2.0",
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "dev": "webpack-dev-server --config webpack.config.js --hot"
