@@ -2,7 +2,7 @@
     let url: string = "http://127.0.0.1:8080/api",
         tags: string[] = ["site_pv", "site_uv", "page_pv", "page_uv"],
         current: HTMLOrSVGScriptElement = document.currentScript,
-        pjax: boolean = current.hasAttribute("data-pjax"),
+        pjax: boolean = current.hasAttribute("pjax"),
         api: string = current.getAttribute("data-api") || url;
 
     let bsz_send: Function = function () {
