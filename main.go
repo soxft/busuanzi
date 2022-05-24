@@ -23,13 +23,18 @@ func main() {
 	}
 	r.Use(gin.Recovery())
 	r.Use(middleware.AccessControl())
+	r.LoadHTMLFiles("dist/index.html")
 
 	// web
-	r.LoadHTMLFiles("dist/index.html")
-	r.StaticFile("/js", "dist/busuanzi.js")
+	static := r.Group("/")
+	{
+		static.Use(middleware.Cache())
+		static.GET("/", controller.Index)
+		static.StaticFile("/js", "dist/busuanzi.js")
+		static.StaticFile("/js/script.js", "dist/busuanzi.js")
+	}
 
 	// router
-	r.GET("/", controller.Index)
 	r.POST("/api", controller.ApiHandler)
 	r.OPTIONS("/api", controller.ApiHandler)
 	r.GET("/ping", controller.PingHandler)
