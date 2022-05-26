@@ -7,6 +7,6 @@ import (
 // Cache set CacheControl
 func Cache() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Header("Cache-Control", "max-age=43200")
+		c.Header("Cache-Control", "public, max-age=86400")
 	}
 }

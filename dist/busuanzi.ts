@@ -1,4 +1,5 @@
 (function (){
+    // 在此处设置您的后端地址 如 https://example.com/api
     let url: string = "http://127.0.0.1:8080/api",
         tags: string[] = ["site_pv", "site_uv", "page_pv", "page_uv"],
         current: HTMLOrSVGScriptElement = document.currentScript,
