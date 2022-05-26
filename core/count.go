@@ -33,7 +33,10 @@ func Count(host string, path string, ip string) (int, int, int, int) {
 
 	siteUv, _ := redis.Int(_redis.Do("SCARD", siteUvKey))
 	pageUv, _ := redis.Int(_redis.Do("SCARD", pageUvKey))
-	go setExpire(sitePvKey, siteUvKey, pagePvKey, pageUvKey)
+
+	if config.C.Bsz.Expire > 0 {
+		go setExpire(sitePvKey, siteUvKey, pagePvKey, pageUvKey)
+	}
 
 	return sitePv, siteUv, pagePv, pageUv
 }
