@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	// debug
+	
 	if !config.C.Web.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -22,23 +22,23 @@ func main() {
 		r.Use(gin.Logger())
 	}
 	r.Use(gin.Recovery())
-	r.Use(middleware.AccessControl())
+	r.Use(middleware.Cors())
 	r.LoadHTMLFiles("dist/index.html")
 
-	// web
-	static := r.Group("/")
+	// routers
 	{
-		static.Use(middleware.Cache())
-		static.GET("/", controller.Index)
-		static.StaticFile("/js", "dist/busuanzi.js")
-		static.StaticFile("/js/script.js", "dist/busuanzi.js")
-	}
+		static := r.Group("/")
+		{
+			static.Use(middleware.Cache())
+			static.GET("/", controller.Index)
+			static.StaticFile("/js", "dist/busuanzi.js")
+			static.StaticFile("/js/script.js", "dist/busuanzi.js")
+		}
 
-	// router
-	r.POST("/api", controller.ApiHandler)
-	r.OPTIONS("/api", controller.ApiHandler)
-	r.GET("/ping", controller.PingHandler)
-	r.NoRoute(controller.NoRouteHandler)
+		r.POST("/api", controller.ApiHandler)
+		r.GET("/ping", controller.PingHandler)
+		r.NoRoute(controller.NoRouteHandler)
+	}
 
 	// start server
 	log.SetOutput(os.Stdout)
