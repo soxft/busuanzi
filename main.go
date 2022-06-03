@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	
+
 	if !config.C.Web.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -32,7 +32,6 @@ func main() {
 			static.Use(middleware.Cache())
 			static.GET("/", controller.Index)
 			static.StaticFile("/js", "dist/busuanzi.js")
-			static.StaticFile("/js/script.js", "dist/busuanzi.js")
 		}
 
 		r.POST("/api", controller.ApiHandler)
