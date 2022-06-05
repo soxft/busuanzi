@@ -3,6 +3,7 @@ package redisutil
 import (
 	"busuanzi/config"
 	"github.com/gomodule/redigo/redis"
+	"log"
 )
 
 var (
@@ -19,9 +20,10 @@ func init() {
 				redis.DialDatabase(config.C.Redis.Database),
 			)
 			if err != nil {
-				panic(err.Error())
+				log.Fatalf("redis connect error: %s", err.Error())
 			}
 			return c, err
 		},
 	}
+	_, _ = Pool.Get().Do("PING")
 }

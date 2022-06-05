@@ -2,7 +2,7 @@ package core
 
 import (
 	"busuanzi/config"
-	"busuanzi/redisutil"
+	"busuanzi/process/redisutil"
 	"busuanzi/tool"
 	"github.com/gomodule/redigo/redis"
 )
