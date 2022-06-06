@@ -4,12 +4,16 @@
         tags: string[] = ["site_pv", "site_uv", "page_pv", "page_uv"],
         current: HTMLOrSVGScriptElement = document.currentScript,
         pjax: boolean = current.hasAttribute("pjax"),
-        api: string = current.getAttribute("data-api") || url;
+        api: string = current.getAttribute("data-api") || url,
+        storageName: string = "busuanzi-identity";
 
     let bsz_send: Function = function () {
         let xhr: XMLHttpRequest = new XMLHttpRequest();
         xhr.open("POST", api, true);
 
+        // set user identity
+        let token = localStorage.getItem(storageName);
+        if (token != null) xhr.setRequestHeader("Authorization", "Bearer " + token);
         xhr.setRequestHeader("x-bsz-referer", window.location.href);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
@@ -20,6 +24,12 @@
                             let ele = document.getElementById(`busuanzi_${tag}`);
                             if (ele) ele.innerHTML = res['data'][tag];
                         })
+
+                        // set identity
+                        if (token === null) {
+                            let setIdentity = xhr.getResponseHeader("Set-Bsz-Identity")
+                            if (setIdentity != null && setIdentity != "") localStorage.setItem(storageName, setIdentity);
+                        }
                     }
                 }
             }

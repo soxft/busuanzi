@@ -15,7 +15,7 @@ func initRoute(r *gin.Engine) {
 			static.StaticFile("/js", "dist/busuanzi.js")
 		}
 
-		r.POST("/api", controller.ApiHandler)
+		r.POST("/api", middleware.Identity(), controller.ApiHandler)
 		r.GET("/ping", controller.PingHandler)
 		r.NoRoute(controller.NoRouteHandler)
 	}

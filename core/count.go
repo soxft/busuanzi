@@ -9,7 +9,7 @@ import (
 
 // Count
 // @description return and count the number of users in the redis
-func Count(host string, path string, ip string) (int, int, int, int) {
+func Count(host string, path string, userIdentity string) (int, int, int, int) {
 	var _redis = redisutil.Pool.Get()
 	defer func(_redis redis.Conn) {
 		_ = _redis.Close()
@@ -28,8 +28,8 @@ func Count(host string, path string, ip string) (int, int, int, int) {
 	// count sitePv ans pagePv
 	sitePv, _ := redis.Int(_redis.Do("INCR", sitePvKey))
 	pagePv, _ := redis.Int(_redis.Do("INCR", pagePvKey))
-	_, _ = _redis.Do("SADD", siteUvKey, tool.Md5(ip))
-	_, _ = _redis.Do("SADD", pageUvKey, tool.Md5(ip))
+	_, _ = _redis.Do("SADD", siteUvKey, userIdentity)
+	_, _ = _redis.Do("SADD", pageUvKey, userIdentity)
 
 	siteUv, _ := redis.Int(_redis.Do("SCARD", siteUvKey))
 	pageUv, _ := redis.Int(_redis.Do("SCARD", pageUvKey))
