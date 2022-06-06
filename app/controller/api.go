@@ -2,6 +2,7 @@ package controller
 
 import (
 	"busuanzi/core"
+	"busuanzi/tool"
 	"github.com/gin-gonic/gin"
 	"net/url"
 )
@@ -29,10 +30,13 @@ func ApiHandler(c *gin.Context) { // test redisHelper
 
 	var host = u.Host
 	var path = u.Path
-	var ip = c.ClientIP()
+
+	var _userIp = c.ClientIP()
+	var _userAgent = c.Request.UserAgent()
+	var userIdentity = tool.Md5(_userIp + _userAgent)
 
 	// count
-	sitePv, siteUv, pagePv, pageUv := core.Count(host, path, ip)
+	sitePv, siteUv, pagePv, pageUv := core.Count(host, path, userIdentity)
 
 	// json
 	c.JSON(200, gin.H{
