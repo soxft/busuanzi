@@ -2,10 +2,10 @@
 
 > 自建不蒜子API
 > 
-> 基于 Golang+Redis 实现的简易页面统计系统
+> 基于 Golang + Redis 的简易访问量统计系统
 
-  - 统计站点的UV,PV
-  - 统计文章页的UV,PV
+  - 统计站点的 UV, PV
+  - 统计文章页的 UV, PV
 
 # 安装
 
@@ -16,9 +16,3 @@
 5. 在终端执行 go build 编译为二进制文件
 6. 编辑 dist/busuanzi.js 替换链接为自己的, 也可以编辑ts文件自行编译
 7. 运行二进制文件
-
-# 基于
-
- - Golang
- - Gin
- - Redis
