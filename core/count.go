@@ -19,7 +19,7 @@ func Count(host string, path string, userIdentity string) (int, int, int, int) {
 	var pathUnique = tool.Md5(host + "&" + path)
 	var siteUnique = tool.Md5(host)
 
-	redisPrefix := config.C.Redis.Prefix
+	redisPrefix := config.Redis.Prefix
 	siteUvKey := redisPrefix + ":site_uv:" + siteUnique
 	pageUvKey := redisPrefix + ":page_uv:" + pathUnique
 
@@ -37,7 +37,7 @@ func Count(host string, path string, userIdentity string) (int, int, int, int) {
 	siteUv, _ := redis.Int(_redis.Do("SCARD", siteUvKey))
 	pageUv, _ := redis.Int(_redis.Do("SCARD", pageUvKey))
 
-	if config.C.Bsz.Expire > 0 {
+	if config.Bsz.Expire > 0 {
 		go setExpire(sitePvKey, siteUvKey, pagePvKey, pageUvKey)
 	}
 
@@ -52,7 +52,7 @@ func setExpire(key ...string) {
 	// multi-set expire
 	_, _ = _redis.Do("MULTI")
 	for _, k := range key {
-		_, _ = _redis.Do("EXPIRE", k, config.C.Bsz.Expire)
+		_, _ = _redis.Do("EXPIRE", k, config.Bsz.Expire)
 	}
 	_, _ = _redis.Do("EXEC")
 }

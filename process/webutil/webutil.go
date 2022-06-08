@@ -9,14 +9,14 @@ import (
 )
 
 func Init() {
-	if !config.C.Web.Debug {
+	if !config.Web.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
 	r := gin.New()
 
 	// middleware
-	if config.C.Web.Log {
+	if config.Web.Log {
 		r.Use(gin.Logger())
 	}
 	r.Use(gin.Recovery())
@@ -28,8 +28,8 @@ func Init() {
 
 	// start server
 	log.SetOutput(os.Stdout)
-	log.Println("server listen on port:", config.C.Web.Address)
-	err := r.Run(config.C.Web.Address)
+	log.Println("server listen on port:", config.Web.Address)
+	err := r.Run(config.Web.Address)
 	if err != nil {
 		log.Fatalf("web服务启动失败: %s", err)
 	}
