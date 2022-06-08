@@ -16,18 +16,21 @@ func Count(host string, path string, userIdentity string) (int, int, int, int) {
 	}(_redis)
 
 	// encode
-	var pathUnique = tool.Md5(host + path)
+	var pathUnique = tool.Md5(host + "&" + path)
 	var siteUnique = tool.Md5(host)
 
 	redisPrefix := config.C.Redis.Prefix
-	sitePvKey := redisPrefix + ":site_pv:" + siteUnique
 	siteUvKey := redisPrefix + ":site_uv:" + siteUnique
-	pagePvKey := redisPrefix + ":page_pv:" + pathUnique
 	pageUvKey := redisPrefix + ":page_uv:" + pathUnique
+
+	pagePvKey := redisPrefix + ":page_pv:" + siteUnique
+	sitePvKey := redisPrefix + ":site_pv:" + siteUnique
 
 	// count sitePv ans pagePv
 	sitePv, _ := redis.Int(_redis.Do("INCR", sitePvKey))
-	pagePv, _ := redis.Int(_redis.Do("INCR", pagePvKey))
+	pagePv, _ := redis.Int(_redis.Do("ZINCRBY", pagePvKey, 1, pathUnique))
+
+	// count siteUv ans pageUv
 	_, _ = _redis.Do("SADD", siteUvKey, userIdentity)
 	_, _ = _redis.Do("SADD", pageUvKey, userIdentity)
 

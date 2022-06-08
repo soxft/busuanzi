@@ -8,15 +8,15 @@ import (
 
 func initRoute(r *gin.Engine) {
 	{
+		r.POST("/api", controller.ApiHandler)
+		r.GET("/ping", controller.PingHandler)
+
 		static := r.Group("/")
 		{
 			static.Use(middleware.Cache())
 			static.GET("/", controller.Index)
 			static.StaticFile("/js", "dist/busuanzi.js")
 		}
-
-		r.POST("/api", controller.ApiHandler)
-		r.GET("/ping", controller.PingHandler)
-		r.NoRoute(controller.NoRouteHandler)
+		r.NoRoute(middleware.Cache(), controller.Index)
 	}
 }
