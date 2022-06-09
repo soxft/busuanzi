@@ -25,11 +25,8 @@
                             if (ele) ele.innerHTML = res['data'][tag];
                         })
 
-                        // set identity
-                        if (token === null) {
-                            let setIdentity = xhr.getResponseHeader("Set-Bsz-Identity")
-                            if (setIdentity != null && setIdentity != "") localStorage.setItem(storageName, setIdentity);
-                        }
+                        let setIdentity = xhr.getResponseHeader("Set-Bsz-Identity")
+                        if (setIdentity != null && setIdentity != "") localStorage.setItem(storageName, setIdentity);
                     }
                 }
             }

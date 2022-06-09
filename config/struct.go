@@ -23,5 +23,6 @@ type WebConfig struct {
 }
 
 type BszConfig struct {
-	Expire int `yaml:"Expire"`
+	Expire    int    `yaml:"Expire"`
+	JwtSecret string `yaml:"JwtSecret"`
 }
