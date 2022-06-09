@@ -16,25 +16,26 @@ func Count(host string, path string, userIdentity string) (int, int, int, int) {
 	}(_redis)
 
 	// encode
-	var pathUnique = tool.Md5(host + path)
+	var pathUnique = tool.Md5(host + "&" + path)
 	var siteUnique = tool.Md5(host)
 
-	redisPrefix := config.C.Redis.Prefix
-	sitePvKey := redisPrefix + ":site_pv:" + siteUnique
+	redisPrefix := config.Redis.Prefix
 	siteUvKey := redisPrefix + ":site_uv:" + siteUnique
-	pagePvKey := redisPrefix + ":page_pv:" + pathUnique
 	pageUvKey := redisPrefix + ":page_uv:" + pathUnique
+
+	sitePvKey := redisPrefix + ":site_pv:" + siteUnique
+	pagePvKey := redisPrefix + ":page_pv:" + siteUnique
 
 	// count sitePv ans pagePv
 	sitePv, _ := redis.Int(_redis.Do("INCR", sitePvKey))
-	pagePv, _ := redis.Int(_redis.Do("INCR", pagePvKey))
+	pagePv, _ := redis.Int(_redis.Do("ZINCRBY", pagePvKey, 1, pathUnique))
 	_, _ = _redis.Do("SADD", siteUvKey, userIdentity)
 	_, _ = _redis.Do("SADD", pageUvKey, userIdentity)
 
 	siteUv, _ := redis.Int(_redis.Do("SCARD", siteUvKey))
 	pageUv, _ := redis.Int(_redis.Do("SCARD", pageUvKey))
 
-	if config.C.Bsz.Expire > 0 {
+	if config.Bsz.Expire > 0 {
 		go setExpire(sitePvKey, siteUvKey, pagePvKey, pageUvKey)
 	}
 
@@ -49,7 +50,7 @@ func setExpire(key ...string) {
 	// multi-set expire
 	_, _ = _redis.Do("MULTI")
 	for _, k := range key {
-		_, _ = _redis.Do("EXPIRE", k, config.C.Bsz.Expire)
+		_, _ = _redis.Do("EXPIRE", k, config.Bsz.Expire)
 	}
 	_, _ = _redis.Do("EXEC")
 }

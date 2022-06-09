@@ -9,14 +9,14 @@ import (
 )
 
 func Init() {
-	if !config.C.Web.Debug {
+	if !config.Web.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
 	r := gin.New()
 
 	// middleware
-	if config.C.Web.Log {
+	if config.Web.Log {
 		r.Use(gin.Logger())
 	}
 	r.Use(gin.Recovery())

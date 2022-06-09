@@ -6,7 +6,7 @@ import (
 	"net/url"
 )
 
-func ApiHandler(c *gin.Context) { // test redisHelper
+func ApiHandler(c *gin.Context) {
 	var referer = c.Request.Header.Get("x-bsz-referer")
 	if referer == "" {
 		c.JSON(200, gin.H{

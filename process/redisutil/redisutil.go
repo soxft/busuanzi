@@ -12,12 +12,12 @@ var (
 
 func init() {
 	Pool = &redis.Pool{
-		MaxIdle:   config.C.Redis.MaxIdle,
-		MaxActive: config.C.Redis.MaxActive,
+		MaxIdle:   config.Redis.MaxIdle,
+		MaxActive: config.Redis.MaxActive,
 		Dial: func() (redis.Conn, error) {
-			c, err := redis.Dial("tcp", config.C.Redis.Address,
-				redis.DialPassword(config.C.Redis.Password),
-				redis.DialDatabase(config.C.Redis.Database),
+			c, err := redis.Dial("tcp", config.Redis.Address,
+				redis.DialPassword(config.Redis.Password),
+				redis.DialDatabase(config.Redis.Database),
 			)
 			if err != nil {
 				log.Fatalf("redis connect error: %s", err.Error())
