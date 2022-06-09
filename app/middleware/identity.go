@@ -15,18 +15,18 @@ func Identity() gin.HandlerFunc {
 
 		if tokenTmp == "" {
 			// generate jwt token
-			userIdentity := tool.Md5(c.ClientIP()) + "." + tool.Md5(c.Request.UserAgent())
+			userIdentity = tool.Md5(c.ClientIP()) + tool.Md5(c.Request.UserAgent())
 			setBszIdentity(c, userIdentity)
 		} else {
 			token := strings.Replace(tokenTmp, "Bearer ", "", -1)
-			userIdentity = jwtutil.Check(token)
-			// fake data, regenerate jwt token
-			if userIdentity == "" {
-				userIdentity := tool.Md5(c.ClientIP()) + "." + tool.Md5(c.Request.UserAgent())
+
+			if userIdentity = jwtutil.Check(token); userIdentity == "" {
+				// fake data, regenerate jwt token
+				userIdentity = tool.Md5(c.ClientIP()) + tool.Md5(c.Request.UserAgent())
 				setBszIdentity(c, userIdentity)
 			}
 		}
-		c.Set("user_identity", userIdentity)
+		c.Set("user_identity", tool.Md5(userIdentity))
 		c.Next()
 	}
 }
