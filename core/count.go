@@ -10,7 +10,7 @@ import (
 // Count
 // @description return and count the number of users in the redis
 func Count(host string, path string, userIdentity string) (int, int, int, int) {
-	var _redis = redisutil.Pool.Get()
+	_redis := redisutil.Pool.Get()
 	defer func(_redis redis.Conn) {
 		_ = _redis.Close()
 	}(_redis)
