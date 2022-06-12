@@ -21,7 +21,7 @@ func Count(host string, path string, userIdentity string) (int, int, int, int) {
 
 	redisPrefix := config.Redis.Prefix
 	siteUvKey := redisPrefix + ":site_uv:" + siteUnique
-	pageUvKey := redisPrefix + ":page_uv:" + pathUnique
+	pageUvKey := redisPrefix + ":page_uv:" + siteUnique + ":" + pathUnique
 
 	sitePvKey := redisPrefix + ":site_pv:" + siteUnique
 	pagePvKey := redisPrefix + ":page_pv:" + siteUnique
