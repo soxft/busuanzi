@@ -25,6 +25,13 @@ func ApiHandler(c *gin.Context) {
 			"data":    gin.H{},
 		})
 		return
+	} else if u.Host == "" || u.Scheme == "" {
+		c.JSON(200, gin.H{
+			"success": false,
+			"message": "invalid referer",
+			"data":    gin.H{},
+		})
+		return
 	}
 
 	var host = u.Host
