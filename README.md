@@ -9,14 +9,12 @@
 
 # 安装
 
-1. 在release界面下载源码
-2. 进入源码目录
-3. 在终端执行 go get 安装依赖
-4. 配置config.yml
-5. 在终端执行 go build 编译为二进制文件
-6. 编辑 dist/busuanzi.js 替换链接为自己的, 也可以编辑ts文件自行编译
-7. 运行二进制文件
+1. git clone -b 122 --depth=1 https://github.com/soxft/busuanzi.git && cd busuanzi
+2. go build -o busuanzi main.go
+3. 根据提示修改 config.yml
+4. 编辑 dist/busuanzi.js 替换链接为自己的, 也可以编辑ts文件自行编译
+5. 运行二进制文件
 
-# NOTICE
+# 需要注意
 
-> v2.5 后与之前数据不兼容
+v2.5 后与之前数据不兼容
