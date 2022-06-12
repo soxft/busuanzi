@@ -9,7 +9,7 @@
 
 # 安装
 
-1. git clone -b 123 --depth=1 https://github.com/soxft/busuanzi.git && cd busuanzi
+1. git clone -b 124 --depth=1 https://github.com/soxft/busuanzi.git && cd busuanzi
 2. go build -o busuanzi main.go
 3. 根据提示修改 config.yml
 4. 编辑 dist/busuanzi.js 替换链接为自己的, 也可以编辑ts文件自行编译
