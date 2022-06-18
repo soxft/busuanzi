@@ -9,6 +9,8 @@ import (
 
 func Identity() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Expose-Headers", "Set-Bsz-Identity")
+		
 		// token
 		var userIdentity string
 		tokenTmp := c.Request.Header.Get("Authorization")
@@ -33,6 +35,5 @@ func Identity() gin.HandlerFunc {
 
 func setBszIdentity(c *gin.Context, userIdentity string) {
 	uid := jwtutil.Generate(userIdentity)
-	c.Writer.Header().Set("Access-Control-Expose-Headers", "Set-Bsz-Identity")
 	c.Writer.Header().Set("Set-Bsz-Identity", uid)
 }
