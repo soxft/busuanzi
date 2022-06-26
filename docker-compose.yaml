@@ -6,11 +6,11 @@ services:
       - ./data/redis:/data
   
   bsz:
-    image: "xcsoft/busuanzi:102"
+    image: "xcsoft/busuanzi:103"
     ports:
       - "8080:8080"
-    volumes:
-      - ./data/config:/app/config
+    #volumes:
+    #   - ./data/config.yaml:/app/config.yaml
     links:
       - redis
     depends_on:
