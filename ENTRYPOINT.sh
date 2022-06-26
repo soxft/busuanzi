@@ -12,7 +12,7 @@ fi
 
 # 监听地址
 if [ -n "$WEB_ADDR" ];then
-  sed -i "s/Address: 127.0.0.1:8080/Address: $WEB_ADDR/g" config.yaml
+  sed -i "s/Address: 0.0.0.0:8080/Address: $WEB_ADDR/g" config.yaml
 fi 
 
 # redis地址
