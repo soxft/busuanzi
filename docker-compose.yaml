@@ -15,8 +15,8 @@ services:
       - redis
     depends_on:
       - redis 
-    env:
-      DEBUG_ENABLE=true
-      LOG_ENABLE=true
-      EXPIRE_TIME=0
-      API_SERVER=https:\/\/busuanzi.example.com\/api
+    environment:
+      - DEBUG_ENABLE: true
+      - LOG_ENABLE: true
+      - EXPIRE_TIME: 0
+      - API_SERVER: https:\/\/busuanzi.example.com
