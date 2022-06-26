@@ -4,9 +4,6 @@ set -x
 
 cd /app
 
-WEB_ADDR=0.0.0.0:8080
-REDIS_ADDR=redis:6379
-
 # busuanzi js API address
 if [ -n "$API_SERVER" ];then
   sed -i "s/http:\/\/127.0.0.1:8080\/api/$API_SERVER/g" dists/busuanzi.js
@@ -20,6 +17,8 @@ fi
 # redis地址
 if [ -n "$REDIS_ADDR" ];then
   sed -i "s/Address: 127.0.0.1:6379/Address: $REDIS_ADDR/g" config.yaml
+else
+  sed -i "s/Address: 127.0.0.1:6379/Address: redis:6379/g" config.yaml
 fi
 
 # redis 密码
