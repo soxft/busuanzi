@@ -11,7 +11,7 @@ WORKDIR /app
 
 COPY --from=builder /app/busuanzi /app
 COPY --from=builder /app/config.yaml /app/config.yaml
-COPY --from=builder /app/dist /app/dists
+COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/ENTRYPOINT.sh /app
 
 EXPOSE 8080

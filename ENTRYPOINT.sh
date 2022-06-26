@@ -2,11 +2,11 @@
 
 set -x
 
-cd /app
+cd /app || exit
 
 # busuanzi js API address
 if [ -n "$API_SERVER" ];then
-  sed -i "s/http:\/\/127.0.0.1:8080\/api/$API_SERVER/g" dists/busuanzi.js
+  sed -i "s/http:\/\/127.0.0.1:8080\/api/$API_SERVER/g" dist/busuanzi.js
 fi
 
 # 监听地址
@@ -41,7 +41,5 @@ if [ -n "$EXPIRE_TIME" ];then
   sed -i "s/Expire: 2592000/Expire: $EXPIRE_TIME/g" config.yaml
 fi
 
-mv dists/busuanzi.js dist/busuanzi.js
-mv dists/index.html dist/index.html
 mv config.yaml config/config.yaml
 exec /app/busuanzi -c /app/config/config.yaml

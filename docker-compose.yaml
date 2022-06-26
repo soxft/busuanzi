@@ -10,7 +10,6 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./data/dist:/app/dist
       - ./data/config:/app/config
     links:
       - redis
@@ -20,4 +19,4 @@ services:
       DEBUG_ENABLE: true
       LOG_ENABLE: true
       EXPIRE_TIME: 0
-      API_SERVER: https:\/\/127.0.0.1:8080\/api
+      API_SERVER: http:\/\/127.0.0.1:8080\/api
