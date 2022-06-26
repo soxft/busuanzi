@@ -8,16 +8,21 @@ import (
 )
 
 var (
-	C          *Config
-	Redis      RedisConfig
-	Web        WebConfig
-	Bsz        BszConfig
+	C     *Config
+	Redis RedisConfig
+	Web   WebConfig
+	Bsz   BszConfig
+)
+
+var (
 	configPath string
+	DistPath   string
 )
 
 func init() {
 	// get config file path
 	flag.StringVar(&configPath, "c", "config.yaml", "config path")
+	flag.StringVar(&DistPath, "d", "dist", "dist path")
 	flag.Parse()
 
 	data, err := ioutil.ReadFile(configPath)

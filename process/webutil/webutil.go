@@ -21,7 +21,7 @@ func Init() {
 	}
 	r.Use(gin.Recovery())
 	r.Use(middleware.Cors())
-	r.LoadHTMLFiles("dist/index.html")
+	r.LoadHTMLFiles(config.DistPath + "/index.html")
 
 	// routers
 	initRoute(r)

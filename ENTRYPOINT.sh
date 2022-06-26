@@ -10,7 +10,16 @@ if [ -n "$API_SERVER" ];then
 fi
 
 # redis地址
-sed -i "s/Address: 127.0.0.1:6379/Address: redis:6379/g" config.yaml
+if [ -n "$REDIS_ADDR" ];then
+  sed -i "s/Address: 127.0.0.1:6379/Address: $REDIS_ADDR/g" config.yaml
+else
+  sed -i "s/Address: 127.0.0.1:6379/Address: redis:6379/g" config.yaml
+fi
+
+# redis 密码
+if [ -n "$REDIS_PWD" ];then
+  sed -i "s/Password:/Password: $REDIS_PWD/g" config.yaml
+fi
 
 # 是否开启debug模式
 if [ -n "$DEBUG_ENABLE" ];then

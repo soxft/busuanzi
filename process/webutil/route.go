@@ -3,6 +3,7 @@ package webutil
 import (
 	"busuanzi/app/controller"
 	"busuanzi/app/middleware"
+	"busuanzi/config"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,7 +16,7 @@ func initRoute(r *gin.Engine) {
 		{
 			static.Use(middleware.Cache())
 			static.GET("/", controller.Index)
-			static.StaticFile("/js", "dist/busuanzi.js")
+			static.StaticFile("/js", config.DistPath+"/busuanzi.js")
 		}
 		r.NoRoute(middleware.Cache(), controller.Index)
 	}
