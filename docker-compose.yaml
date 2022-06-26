@@ -6,7 +6,7 @@ services:
       - ./data/redis:/data
   
   bsz:
-    image: "busuanzi:latest"
+    image: "xcsoft/busuanzi:102"
     ports:
       - "8080:8080"
     volumes:
@@ -20,4 +20,4 @@ services:
       DEBUG_ENABLE: true
       LOG_ENABLE: true
       EXPIRE_TIME: 0
-      API_SERVER: https:\/\/busuanzi.example.com\/api
+      API_SERVER: https:\/\/127.0.0.1:8080\/api
