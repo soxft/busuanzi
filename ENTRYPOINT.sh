@@ -7,7 +7,7 @@ REDIS_ADDR=redis:6379
 
 # busuanzi js API address
 if [ -n "$API_SERVER" ];then
-  sed -i "s/http:\/\/0.0.0.0:8080\/api/$API_SERVER\/api/g" dist/busuanzi.js
+  sed -i "s/http:\/\/0.0.0.0:8080\/api/$API_SERVER/g" dist/busuanzi.js
 fi
 
 # 监听地址

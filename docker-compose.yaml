@@ -11,12 +11,13 @@ services:
       - "8080:8080"
     volumes:
       - ./data/dist:/app/dist
+      - ./data/config:/app/config
     links:
       - redis
     depends_on:
       - redis 
     environment:
-      - DEBUG_ENABLE: true
-      - LOG_ENABLE: true
-      - EXPIRE_TIME: 0
-      - API_SERVER: https:\/\/busuanzi.example.com
+      DEBUG_ENABLE: true
+      LOG_ENABLE: true
+      EXPIRE_TIME: 0
+      API_SERVER: https:\/\/busuanzi.example.com\/api
