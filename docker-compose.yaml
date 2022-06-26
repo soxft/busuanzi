@@ -3,10 +3,10 @@ services:
   redis:
     image: "redis:alpine"
     volumes:
-      - ./data/redis:/data
+      - ./data:/data
   
   bsz:
-    image: "xcsoft/busuanzi:103"
+    image: "xcsoft/busuanzi:104"
     ports:
       - "8080:8080"
     #volumes:
@@ -14,7 +14,7 @@ services:
     links:
       - redis
     depends_on:
-      - redis 
+      - redis
     environment:
       DEBUG_ENABLE: true
       LOG_ENABLE: true

@@ -9,22 +9,8 @@ if [ -n "$API_SERVER" ];then
   sed -i "s/http:\/\/127.0.0.1:8080\/api/$API_SERVER/g" dist/busuanzi.js
 fi
 
-# 监听地址
-if [ -n "$WEB_ADDR" ];then
-  sed -i "s/Address: 0.0.0.0:8080/Address: $WEB_ADDR/g" config.yaml
-fi
-
 # redis地址
-if [ -n "$REDIS_ADDR" ];then
-  sed -i "s/Address: 127.0.0.1:6379/Address: $REDIS_ADDR/g" config.yaml
-else
-  sed -i "s/Address: 127.0.0.1:6379/Address: redis:6379/g" config.yaml
-fi
-
-# redis 密码
-if [ -n "$REDIS_PWD" ];then
-  sed -i "s/Password:/Password: $REDIS_PWD/g" config.yaml
-fi 
+sed -i "s/Address: 127.0.0.1:6379/Address: redis:6379/g" config.yaml
 
 # 是否开启debug模式
 if [ -n "$DEBUG_ENABLE" ];then
