@@ -3,7 +3,11 @@ FROM golang:1.18-alpine as builder
 WORKDIR /app
 ENV GOPROXY=https://goproxy.cn,direct
 COPY . .
-RUN go build -o busuanzi main.go
+RUN set -evx -o pipefail        \
+    && apk update               \
+    && apk add --no-cache git   \
+    && rm -rf /var/cache/apk/*  \
+    && go build -o busuanzi main.go
 
 
 FROM alpine:3.16
