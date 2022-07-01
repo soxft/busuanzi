@@ -54,4 +54,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: soxft/busuanzi:latest
+          tags: ghcr.io/soxft/busuanzi:latest
