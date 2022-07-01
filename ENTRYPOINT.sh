@@ -21,7 +21,7 @@ if [ -n "$REDIS_PWD" ];then
   sed -i "s/Password:/Password: $REDIS_PWD/g" config.yaml
 fi
 
-# 是否开启debug模式
+# 是否开启 debug 模式
 if [ -n "$DEBUG_ENABLE" ];then
   sed -i "s/Debug: true/Debug: $DEBUG_ENABLE/g" config.yaml
 fi 
