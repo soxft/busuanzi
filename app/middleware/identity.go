@@ -1,16 +1,16 @@
 package middleware
 
 import (
-	"busuanzi/library/jwtutil"
-	"busuanzi/library/tool"
 	"github.com/gin-gonic/gin"
+	"github.com/soxft/busuanzi/library/jwtutil"
+	"github.com/soxft/busuanzi/library/tool"
 	"strings"
 )
 
 func Identity() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Expose-Headers", "Set-Bsz-Identity")
-		
+
 		// token
 		var userIdentity string
 		tokenTmp := c.Request.Header.Get("Authorization")

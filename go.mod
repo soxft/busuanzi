@@ -1,4 +1,4 @@
-module busuanzi
+module github.com/soxft/busuanzi
 
 go 1.18
 

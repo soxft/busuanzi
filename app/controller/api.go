@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"busuanzi/core"
 	"github.com/gin-gonic/gin"
+	"github.com/soxft/busuanzi/core"
 	"net/url"
 )
 

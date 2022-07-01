@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"busuanzi/config"
 	"github.com/gin-gonic/gin"
+	"github.com/soxft/busuanzi/config"
 )
 
 func Cors() gin.HandlerFunc {
