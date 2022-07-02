@@ -7,6 +7,10 @@
   - 统计站点的 UV, PV
   - 统计文章页的 UV, PV
 
-# 安装
+## 安装
 
-> 详见 [WIKI](https://github.com/soxft/busuanzi/wiki/Install)
+[安装](https://github.com/soxft/busuanzi/wiki/Install)
+
+## 配置文档
+
+[配置文档](https://github.com/soxft/busuanzi/wiki/Helper)
