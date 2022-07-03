@@ -5,7 +5,8 @@
         current: HTMLOrSVGScriptElement = document.currentScript,
         pjax: boolean = current.hasAttribute("pjax"),
         api: string = current.getAttribute("data-api") || url,
-        storageName: string = "busuanzi-identity";
+        prefix: string = current.getAttribute("data-prefix") || "busuanzi",
+        storageName: string = "bsz-id";
 
     let bsz_send: Function = function () {
         let xhr: XMLHttpRequest = new XMLHttpRequest();
@@ -21,7 +22,7 @@
                     let res: any = JSON.parse(xhr.responseText);
                     if (res.success === true) {
                         tags.map((tag: string) => {
-                            let ele = document.getElementById(`busuanzi_${tag}`);
+                            let ele = document.getElementById(`${prefix}_${tag}`);
                             if (ele) ele.innerHTML = res['data'][tag];
                         })
 
