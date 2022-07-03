@@ -7,7 +7,7 @@ RUN set -evx -o pipefail        \
     && apk update               \
     && apk add --no-cache git   \
     && rm -rf /var/cache/apk/*  \
-    && go build -o busuanzi main.go
+    && go build -ldflags="-s -w" -o busuanzi main.go
 
 
 FROM alpine:3.16
