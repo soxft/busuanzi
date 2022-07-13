@@ -16,13 +16,13 @@ var (
 
 var (
 	configPath string
-	DistPath   string
+	AssetsPath string
 )
 
 func init() {
 	// get config file path
 	flag.StringVar(&configPath, "c", "config.yaml", "config path")
-	flag.StringVar(&DistPath, "d", "dist", "dist path")
+	flag.StringVar(&AssetsPath, "d", "assets", "assets path")
 	flag.Parse()
 
 	data, err := ioutil.ReadFile(configPath)
@@ -30,8 +30,7 @@ func init() {
 		log.Fatal("Error reading config file:\r\n" + err.Error())
 	}
 	C = &Config{}
-	err = yaml.Unmarshal(data, C)
-	if err != nil {
+	if err = yaml.Unmarshal(data, C); err != nil {
 		log.Fatal("Error parsing config file:\r\n" + err.Error())
 	}
 

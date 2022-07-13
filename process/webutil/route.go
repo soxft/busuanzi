@@ -8,6 +8,7 @@ import (
 )
 
 func initRoute(r *gin.Engine) {
+	r.LoadHTMLFiles(config.AssetsPath + "/index.html")
 	{
 		r.POST("/api", middleware.Identity(), controller.ApiHandler)
 		r.GET("/ping", controller.PingHandler)
@@ -16,7 +17,7 @@ func initRoute(r *gin.Engine) {
 		{
 			static.Use(middleware.Cache())
 			static.GET("/", controller.Index)
-			static.StaticFile("/js", config.DistPath+"/busuanzi.js")
+			static.StaticFile("/js", config.AssetsPath+"/busuanzi.js")
 		}
 		r.NoRoute(middleware.Cache(), controller.Index)
 	}
