@@ -3,14 +3,14 @@ services:
   redis:
     image: "redis:alpine"
     volumes:
-      - ./data:/data
+      - ./data/redis:/data
   
   bsz:
     image: "xcsoft/busuanzi:latest"
     ports:
       - "8080:8080"
-    #volumes:
-    #   - ./data/config.yaml:/app/config.yaml
+    volumes:
+       - ./data/bsz:/app/expose
     links:
       - redis
     depends_on:

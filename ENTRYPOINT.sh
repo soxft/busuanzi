@@ -36,4 +36,7 @@ if [ -n "$EXPIRE_TIME" ];then
   sed -i "s/Expire: 2592000/Expire: $EXPIRE_TIME/g" config.yaml
 fi
 
-exec /app/busuanzi
+mv config.yaml /app/expose/config.yaml
+mv dist /app/expose/dist
+
+exec /app/busuanzi -c ./expose/config.yaml -d ./expose/dist
