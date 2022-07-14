@@ -22,19 +22,9 @@ if [ -f "config.yaml" ]; then
     sed -i "s/Password:/Password: $REDIS_PWD/g" config.yaml
   fi
 
-  # 是否开启 debug 模式
-  if [ -n "$DEBUG_ENABLE" ];then
-    sed -i "s/Debug: true/Debug: $DEBUG_ENABLE/g" config.yaml
-  fi
-
   # 是否开启日志
   if [ -n "$LOG_ENABLE" ];then
     sed -i "s/Log: true/Log: $LOG_ENABLE/g" config.yaml
-  fi
-
-  # 统计数据过期时间 单位秒, 请输入整数 (无任何访问, 超过这个时间后, 统计数据将被清空, 0为不过期)
-  if [ -n "$EXPIRE_TIME" ];then
-    sed -i "s/Expire: 2592000/Expire: $EXPIRE_TIME/g" config.yaml
   fi
 
   mv config.yaml /app/expose/config.yaml
