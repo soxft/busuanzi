@@ -16,7 +16,5 @@ services:
     depends_on:
       - redis
     environment:
-      DEBUG_ENABLE: true
       LOG_ENABLE: true
-      EXPIRE_TIME: 0
       API_SERVER: http:\/\/127.0.0.1:8080\/api
