@@ -19,4 +19,4 @@ COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/ENTRYPOINT.sh /app
 
 EXPOSE 8080
-ENTRYPOINT [ "./ENTRYPOINT.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
