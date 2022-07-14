@@ -4,7 +4,7 @@ set -x
 
 cd /app || exit
 
-if [ ! -f "config.yaml" ]; then
+if [ -f "config.yaml" ]; then
   # busuanzi js API address
   if [ -n "$API_SERVER" ];then
     sed -i "s/http:\/\/127.0.0.1:8080\/api/$API_SERVER/g" dist/busuanzi.js
