@@ -25,8 +25,10 @@ func init() {
 	flag.StringVar(&AssetsPath, "d", "assets", "assets path")
 	flag.Parse()
 
-	data, err := ioutil.ReadFile(configPath)
-	if err != nil {
+	var err error
+	var data []byte
+
+	if data, err = ioutil.ReadFile(configPath); err != nil {
 		log.Fatal("Error reading config file:\r\n" + err.Error())
 	}
 	C = &Config{}
