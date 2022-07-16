@@ -22,7 +22,6 @@
                     ));
                     var n = e.getResponseHeader("Set-Bsz-Identity");
                     null != n && "" != n && localStorage.setItem(i, n)
-                    
                     document.getElementById("busuanzi_container_site_pv").style.display = "inline"
                     document.getElementById("busuanzi_container_page_pv").style.display = "inline"
                     document.getElementById("busuanzi_container_site_uv").style.display = "inline"
