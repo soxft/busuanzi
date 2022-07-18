@@ -22,8 +22,11 @@
                     let res: any = JSON.parse(xhr.responseText);
                     if (res.success === true) {
                         tags.map((tag: string) => {
-                            let ele = document.getElementById(`${prefix}_${tag}`);
-                            if (ele) ele.innerHTML = res['data'][tag];
+                            let element = document.getElementById(`${prefix}_${tag}`);
+                            if (element != null) element.innerHTML = res['data'][tag];
+
+                            let container = document.getElementById(`${prefix}_container_${tag}`);
+                            if (container != null) container.style.display = "inline";
                         })
 
                         let setIdentity = xhr.getResponseHeader("Set-Bsz-Identity")
