@@ -13,7 +13,7 @@
         xhr.open("POST", api, true);
 
         // set user identity
-        let token = localStorage.getItem(storageName);
+        let token: string | null = localStorage.getItem(storageName);
         if (token != null) xhr.setRequestHeader("Authorization", "Bearer " + token);
         xhr.setRequestHeader("x-bsz-referer", window.location.href);
         xhr.onreadystatechange = function () {
