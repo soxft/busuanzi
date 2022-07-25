@@ -1,9 +1,9 @@
 package webutil
 
 import (
-	"busuanzi/app/middleware"
-	"busuanzi/config"
 	"github.com/gin-gonic/gin"
+	"github.com/soxft/busuanzi/app/middleware"
+	"github.com/soxft/busuanzi/config"
 	"log"
 	"os"
 )

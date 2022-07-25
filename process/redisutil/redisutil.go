@@ -1,8 +1,8 @@
 package redisutil
 
 import (
-	"busuanzi/config"
 	"github.com/gomodule/redigo/redis"
+	"github.com/soxft/busuanzi/config"
 	"log"
 )
 

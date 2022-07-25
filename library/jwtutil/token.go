@@ -1,8 +1,8 @@
 package jwtutil
 
 import (
-	"busuanzi/config"
-	"busuanzi/library/tool"
+	"github.com/soxft/busuanzi/config"
+	"github.com/soxft/busuanzi/library/tool"
 	"strings"
 )
 

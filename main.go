@@ -1,7 +1,7 @@
 package main
 
 import (
-	"busuanzi/process/webutil"
+	"github.com/soxft/busuanzi/process/webutil"
 )
 
 func main() {
