@@ -1,18 +1,19 @@
 (function (){
     // 在此处设置您的后端地址 如 https://example.com/api
-    let url: string = "https://busuanzi.9420.ltd/api",
+    let url: string = "https://bsz.vercel.app/api",
         tags: string[] = ["site_pv", "site_uv", "page_pv", "page_uv"],
         current: HTMLOrSVGScriptElement = document.currentScript,
         pjax: boolean = current.hasAttribute("pjax"),
         api: string = current.getAttribute("data-api") || url,
-        storageName: string = "busuanzi-identity";
+        prefix: string = current.getAttribute("data-prefix") || "busuanzi",
+        storageName: string = "bsz-id";
 
     let bsz_send: Function = function () {
         let xhr: XMLHttpRequest = new XMLHttpRequest();
         xhr.open("POST", api, true);
 
         // set user identity
-        let token = localStorage.getItem(storageName);
+        let token: string | null = localStorage.getItem(storageName);
         if (token != null) xhr.setRequestHeader("Authorization", "Bearer " + token);
         xhr.setRequestHeader("x-bsz-referer", window.location.href);
         xhr.onreadystatechange = function () {
@@ -21,8 +22,11 @@
                     let res: any = JSON.parse(xhr.responseText);
                     if (res.success === true) {
                         tags.map((tag: string) => {
-                            let ele = document.getElementById(`busuanzi_${tag}`);
-                            if (ele) ele.innerHTML = res['data'][tag];
+                            let element = document.getElementById(`${prefix}_${tag}`);
+                            if (element != null) element.innerHTML = res['data'][tag];
+
+                            let container = document.getElementById(`${prefix}_container_${tag}`);
+                            if (container != null) container.style.display = "inline";
                         })
 
                         let setIdentity = xhr.getResponseHeader("Set-Bsz-Identity")
