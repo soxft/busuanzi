@@ -7,13 +7,13 @@
   <a href="http://www.apache.org/licenses/LICENSE-2.0.html"> 
     <img src="https://img.shields.io/github/license/soxft/busuanzi.svg?style=for-the-badge" alt="License">
   </a>
-  <a href="https://github.com/soxft/URLshorting/stargazers"> 
+  <a href="https://github.com/soxft/busuanzi/stargazers"> 
     <img src="https://img.shields.io/github/stars/soxft/busuanzi.svg?style=for-the-badge" alt="GitHub stars">
   </a>
-  <a href="https://github.com/soxft/URLshorting/network/members"> 
+  <a href="https://github.com/soxft/busuanzi/network/members"> 
     <img src="https://img.shields.io/github/forks/soxft/busuanzi.svg?style=for-the-badge" alt="GitHub forks">
   </a> 
-  <a href = "https://github.com/soxft/UrlShorting/releases">
+  <a href = "https://github.com/soxft/busuanzi/releases">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/soxft/busuanzi?style=for-the-badge">
   </a>
 </h1>
