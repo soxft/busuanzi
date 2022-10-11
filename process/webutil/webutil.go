@@ -28,8 +28,8 @@ func Init() {
 
 	// start server
 	log.SetOutput(os.Stdout)
-	log.Println("server listening on port:", config.C.Web.Address)
-	err := r.Run(config.C.Web.Address)
+	log.Println("server listening on port:", config.Web.Address)
+	err := r.Run(config.Web.Address)
 	if err != nil {
 		log.Fatalf("we b服务启动失败: %s", err)
 	}
