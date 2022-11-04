@@ -1,4 +1,6 @@
 {
+  "name": "busuanzi",
+  "description": "",
   "dependencies": {
     "ts-loader": "^9.3.0",
     "typescript": "^4.6.4",
@@ -9,5 +11,17 @@
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "dev": "webpack-dev-server --config webpack.config.js --hot"
-  }
+  },
+  "version": "1.0.0",
+  "main": "busuanzi.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/soxft/busuanzi"
+  },
+  "keywords": [],
+  "author": "xcsoft",
+  "bugs": {
+    "url": "https://github.com/soxft/busuanzi/issues"
+  },
+  "homepage": "https://busuanzi.9420.ltd/"
 }
