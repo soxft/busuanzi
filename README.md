@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://busuanzi.9420.ltd/" alt="logo" ><img src="https://cdn.iirose.cn/bsz/favicon.svg" width="150"/></a>
+  <a href="https://busuanzi.9420.ltd/" alt="logo" ><img src="https://img.iirose.cn/bsz/favicon.svg" width="150"/></a>
   <br>
     soxft/busuanzi
   <br>
