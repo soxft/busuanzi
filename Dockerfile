@@ -16,8 +16,8 @@ RUN set -evx -o pipefail        \
     && apk update               \
     && apk add --no-cache git   \
     && rm -rf /var/cache/apk/*  \
-    && pnpm install             \
-    && pnpm run build
+    && npm install             \
+    && npm run build
 
 FROM alpine:3.16
 WORKDIR /app
