@@ -13,9 +13,6 @@ FROM node:16-alpine as ts-builder
 WORKDIR /app
 COPY ./dist .
 RUN set -evx -o pipefail        \
-    && apk update               \
-    && apk add --no-cache git   \
-    && rm -rf /var/cache/apk/*  \
     && npm install -g pnpm      \
     && pnpm install             \
     && pnpm run build           \
