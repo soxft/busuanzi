@@ -3,8 +3,8 @@ package config
 import (
 	"flag"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"log"
+	"os"
 )
 
 var (
@@ -25,7 +25,7 @@ func init() {
 	flag.StringVar(&DistPath, "d", "dist", "dist path")
 	flag.Parse()
 
-	data, err := ioutil.ReadFile(configPath)
+	data, err := os.ReadFile(configPath)
 	if err != nil {
 		log.Fatal("Error reading config file:\r\n" + err.Error())
 	}
