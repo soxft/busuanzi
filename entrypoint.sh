@@ -11,6 +11,7 @@ if [ -f "install.lock" ];then
   fi
 
   mv dist /app/expose/dist
+  mv config.yaml /app/expose/config.yaml
 fi
 
 touch install.lock
