@@ -56,7 +56,8 @@ func init() {
 			log.Fatal("Error parsing config file:\r\n" + err.Error())
 		}
 	} else {
-		log.Println("Error reading config file:\r\n"+err.Error(), "Using default config", defaultConfig)
+		log.Println("Error reading config file:\r\n" + err.Error())
+		log.Println("Using default config", defaultConfig)
 		C = &defaultConfig
 	}
 
