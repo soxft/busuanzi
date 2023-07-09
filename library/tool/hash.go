@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"crypto/sha1"
 	"encoding/hex"
+	"math/rand"
 )
 
 func Md5(s string) string {
@@ -17,4 +18,14 @@ func Sha256(str, salt string) string {
 	h.Write([]byte(str))
 	h.Write([]byte(salt))
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+func RandString(n int) string {
+	const alphanum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	var bytes = make([]byte, n)
+	_, _ = rand.Read(bytes)
+	for i, b := range bytes {
+		bytes[i] = alphanum[b%byte(len(alphanum))]
+	}
+	return string(bytes)
 }

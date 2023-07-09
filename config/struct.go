@@ -4,6 +4,7 @@ type Config struct {
 	Redis RedisConfig `yaml:"Redis"`
 	Web   WebConfig   `yaml:"Web"`
 	Bsz   BszConfig   `yaml:"Bsz"`
+	Admin AdminConfig `yaml:"Admin"`
 }
 
 type RedisConfig struct {
@@ -25,4 +26,8 @@ type WebConfig struct {
 type BszConfig struct {
 	Expire    int    `yaml:"Expire"`
 	JwtSecret string `yaml:"JwtSecret"`
+}
+
+type AdminConfig struct {
+	Password string `yaml:"Password"`
 }

@@ -12,6 +12,13 @@ func initRoute(r *gin.Engine) {
 		r.POST("/api", middleware.Identity(), controller.ApiHandler)
 		r.GET("/ping", controller.PingHandler)
 
+		admin := r.Group("/admin")
+		{
+			admin.GET("/", controller.Admin)
+			admin.POST("/get", controller.AdminGet)
+			admin.POST("/update", middleware.AdminIdentity(), controller.AdminUpdate)
+		}
+
 		static := r.Group("/")
 		{
 			static.Use(middleware.Cache())

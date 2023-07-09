@@ -1,11 +1,12 @@
 package webutil
 
 import (
+	"log"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/soxft/busuanzi/app/middleware"
 	"github.com/soxft/busuanzi/config"
-	"log"
-	"os"
 )
 
 func Init() {
@@ -21,7 +22,7 @@ func Init() {
 	}
 	r.Use(gin.Recovery())
 	r.Use(middleware.Cors())
-	r.LoadHTMLFiles(config.DistPath + "/index.html")
+	r.LoadHTMLFiles(config.DistPath+"/index.html", config.DistPath+"/admin.html")
 
 	// routers
 	initRoute(r)

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>不蒜子 - 管理页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="基于golang的简易页面访问统计">
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/soxft/busuanzi/main/dist/favicon.svg">
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.0/css/bootstrap.min.css" type="text/css"
+        rel="stylesheet" />
+    <style>
+        a {
+            color: gray;
+            text-decoration: none;
+        }
+    </style>
+    <script>
+        const $ = (e) => document.querySelector(e);
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card my-5">
+            <div class="card-body">
+                <h2 class="text-center">
+                    不蒜子 API - 管理页面
+                </h2>
+                <h5>管理员登录</h5>
+                <div class="my-2">
+                    <input type="text" class="form-control" id="password" placeholder="请输入管理员密码"
+                        onchange="localStorage.setItem('bsz-admin-password', $('#password').value)">
+                </div>
+
+                <hr>
+                <h5>搜索站点</h5>
+                <div class="my-2">
+                    <input type="text" class="form-control" id="search" placeholder="请输入站点 url">
+                </div>
+                <div class="my-2 mb-4">
+                    <button type="button" class="btn btn-primary" onclick="search()">搜索</button>
+                </div>
+                <div id="tips" class="my-2 mb-4">
+
+                </div>
+
+                <h5>修改数据</h5>
+                <div id="data">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">数据名称</th>
+                                <th scope="col">数据内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Host</th>
+                                <td><input type="text" id="host" class="form-control" readonly /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Path</th>
+                                <td><input type="text" id="path" class="form-control" readonly /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Page PV</th>
+                                <td><input type="number" id="page_pv" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Page UV</th>
+                                <td><input type="number" id="page_uv" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Site PV</th>
+                                <td><input type="number" id="site_pv" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Site UV</th>
+                                <td><input type="number" id="site_uv" class="form-control" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-primary" onclick="update()">保存</button>
+                    <p class="text-secondary my-2">注意: 如果保存的 UV 大于原始值时，会随机生成用户 ID 保存至 Redis 中。如果保存的 UV
+                        小于原始值时，会随机删除用户 ID。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const admin_password = localStorage.getItem('bsz-admin-password');
+        const $tips = $('#tips');
+        if (admin_password) {
+            $('#password').value = admin_password;
+        }
+
+        function search() {
+            const url = $('#search').value;
+            if (!url) {
+                alert('请输入站点 url');
+                return;
+            }
+            fetch('/admin/get', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    url,
+                    password: localStorage.getItem('bsz-admin-password') || ''
+                })
+            }).then(res => res.json()).then(res => {
+                if (res.success === true) {
+                    render(res.data);
+                    $tips.innerHTML = `<p class="text-success">获取成功</p>`;
+                } else {
+                    $tips.innerHTML = `<p class="text-danger">${res.message}</p>`;
+                }
+            }).catch(err => {
+                $tips.innerHTML = `<p class="text-danger">${err}</p>`;
+            });
+        }
+
+        function render(data) {
+            $('#host').value = data.host;
+            $('#path').value = data.path;
+            $('#site_pv').value = data.site_pv;
+            $('#site_uv').value = data.site_uv;
+            $('#page_pv').value = data.page_pv;
+            $('#page_uv').value = data.page_uv;
+        }
+
+        function update() {
+            let site_pv = $('#site_pv').value;
+            let site_uv = $('#site_uv').value;
+            let page_pv = $('#page_pv').value;
+            let page_uv = $('#page_uv').value;
+            if (!site_pv || !site_uv || !page_pv || !page_uv) {
+                alert('请填写完整数据');
+                return;
+            }
+            fetch('/admin/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    url: `http://${$('#host').value}${$('#path').value}`,
+                    site_pv,
+                    site_uv,
+                    page_pv,
+                    page_uv,
+                    password: localStorage.getItem('bsz-admin-password') || ''
+                })
+            }).then(res => res.json()).then(res => {
+                if (res.success === true) {
+                    $tips.innerHTML = `<p class="text-success">保存成功，修改 ${res.data.count}</p>`;
+                } else {
+                    $tips.innerHTML = `<p class="text-danger">${res.message}</p>`;
+                }
+            }).catch(err => {
+                $tips.innerHTML = `<p class="text-danger">${err}</p>`;
+            });
+        }
+    </script>
+
+    <div class="fixed-bottom pl-4 pb-3 text-secondary">
+        copyright &copy; <a href="//xsot.cn">xcsoft</a>
+    </div>
+</body>
+
+</html>

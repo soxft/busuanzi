@@ -2,10 +2,11 @@ package config
 
 import (
 	"flag"
-	"gopkg.in/yaml.v2"
 	"log"
 	"os"
 	"strconv"
+
+	"gopkg.in/yaml.v2"
 )
 
 var (
@@ -13,6 +14,7 @@ var (
 	Redis RedisConfig
 	Web   WebConfig
 	Bsz   BszConfig
+	Admin AdminConfig
 )
 
 var (
@@ -38,6 +40,9 @@ var defaultConfig = Config{
 	Bsz: BszConfig{
 		Expire:    0,
 		JwtSecret: "bsz",
+	},
+	Admin: AdminConfig{
+		Password: "bsz",
 	},
 }
 
@@ -86,8 +91,12 @@ func init() {
 	if _jwt, ok := os.LookupEnv("JWT_SECRET"); ok {
 		C.Bsz.JwtSecret = _jwt
 	}
+	if _adminPwd, ok := os.LookupEnv("ADMIN_PASSWORD"); ok {
+		C.Admin.Password = _adminPwd
+	}
 
 	Redis = C.Redis
 	Web = C.Web
 	Bsz = C.Bsz
+	Admin = C.Admin
 }
