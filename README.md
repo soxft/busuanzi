@@ -16,3 +16,7 @@
 ## 使用方式
 
 支持多种自定义属性, 兼容 pjax 网页, 支持自定义 标签前缀. 详见: [使用文档](https://github.com/soxft/busuanzi/wiki/usage)
+
+## 其他
+
+[Yuantuo](https://github.com/yuantuo666) 提供了一个 支持 Web 管理的版本. 可以在 [yuantuo666/busuanzi](https://github.com/yuantuo666/busuanzi) 找到
