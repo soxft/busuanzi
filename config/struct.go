@@ -10,6 +10,7 @@ type RedisConfig struct {
 	Address   string `yaml:"Address"`
 	Password  string `yaml:"Password"`
 	Database  int    `yaml:"Database"`
+	TLS       bool   `yaml:"TLS"`
 	Prefix    string `yaml:"Prefix"`
 	MaxIdle   int    `yaml:"MaxIdle"`
 	MaxActive int    `yaml:"MaxActive"`
