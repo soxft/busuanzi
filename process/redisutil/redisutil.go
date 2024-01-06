@@ -18,6 +18,7 @@ func init() {
 			c, err := redis.Dial("tcp", config.Redis.Address,
 				redis.DialPassword(config.Redis.Password),
 				redis.DialDatabase(config.Redis.Database),
+				redis.DialUseTLS(config.Redis.TLS),
 			)
 			if err != nil {
 				log.Fatalf("redis connect error: %s", err.Error())
