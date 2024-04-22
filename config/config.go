@@ -22,13 +22,15 @@ var (
 
 var defaultConfig = Config{
 	Redis: RedisConfig{
-		Address:   "redis:6379",
-		Password:  "",
-		Database:  0,
-		TLS:       false,
-		Prefix:    "bsz_",
-		MaxIdle:   10,
-		MaxActive: 100,
+		Address:    "redis:6379",
+		Password:   "",
+		Database:   0,
+		TLS:        false,
+		Prefix:     "bsz_",
+		MaxIdle:    10,
+		MaxActive:  100,
+		MinIdle:    1,
+		MaxRetries: 3,
 	},
 	Web: WebConfig{
 		Address: "0.0.0.0:8080",
@@ -37,7 +39,6 @@ var defaultConfig = Config{
 		Debug:   false,
 	},
 	Bsz: BszConfig{
-		Expire:    0,
 		JwtSecret: "bsz",
 	},
 }

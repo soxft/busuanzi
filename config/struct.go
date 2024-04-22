@@ -7,13 +7,15 @@ type Config struct {
 }
 
 type RedisConfig struct {
-	Address   string `yaml:"Address"`
-	Password  string `yaml:"Password"`
-	Database  int    `yaml:"Database"`
-	TLS       bool   `yaml:"TLS"`
-	Prefix    string `yaml:"Prefix"`
-	MaxIdle   int    `yaml:"MaxIdle"`
-	MaxActive int    `yaml:"MaxActive"`
+	Address    string `yaml:"Address"`
+	Password   string `yaml:"Password"`
+	Database   int    `yaml:"Database"`
+	TLS        bool   `yaml:"TLS"`
+	Prefix     string `yaml:"Prefix"`
+	MaxIdle    int    `yaml:"MaxIdle"`
+	MaxActive  int    `yaml:"MaxActive"`
+	MinIdle    int    `yaml:"MinIdle"`
+	MaxRetries int    `yaml:"MaxRetries"`
 }
 
 type WebConfig struct {
@@ -24,6 +26,5 @@ type WebConfig struct {
 }
 
 type BszConfig struct {
-	Expire    int    `yaml:"Expire"`
 	JwtSecret string `yaml:"JwtSecret"`
 }
