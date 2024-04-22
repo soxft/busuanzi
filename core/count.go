@@ -1,7 +1,8 @@
 package core
 
 import (
-	"github.com/gomodule/redigo/redis"
+	"context"
+	"fmt"
 	"github.com/soxft/busuanzi/config"
 	"github.com/soxft/busuanzi/library/tool"
 	"github.com/soxft/busuanzi/process/redisutil"
@@ -9,48 +10,33 @@ import (
 
 // Count
 // @description return and count the number of users in the redis
-func Count(host string, path string, userIdentity string) (int, int, int, int) {
-	_redis := redisutil.Pool.Get()
-	defer func(_redis redis.Conn) {
-		_ = _redis.Close()
-	}(_redis)
+func Count(ctx context.Context, host string, path string, userIdentity string) (int64, int64, int64, int64) {
+	_redis := redisutil.RDB
 
 	// encode
 	var pathUnique = tool.Md5(host + "&" + path)
 	var siteUnique = tool.Md5(host)
 
 	redisPrefix := config.Redis.Prefix
-	siteUvKey := redisPrefix + ":site_uv:" + siteUnique
-	pageUvKey := redisPrefix + ":page_uv:" + siteUnique + ":" + pathUnique
 
-	sitePvKey := redisPrefix + ":site_pv:" + siteUnique
-	pagePvKey := redisPrefix + ":page_pv:" + siteUnique
+	// user view keys 用户数
+	siteUvKey := fmt.Sprintf("%s:site_uv:%s", redisPrefix, siteUnique)
+	pageUvKey := fmt.Sprintf("%s:page_uv:%s:%s", redisPrefix, siteUnique, pathUnique)
+
+	// page view keys 页面访问数
+	sitePvKey := fmt.Sprintf("%s:site_pv:%s", redisPrefix, siteUnique)
+	pagePvKey := fmt.Sprintf("%s:page_pv:%s", redisPrefix, siteUnique)
 
 	// count sitePv ans pagePv
-	sitePv, _ := redis.Int(_redis.Do("INCR", sitePvKey))
-	pagePv, _ := redis.Int(_redis.Do("ZINCRBY", pagePvKey, 1, pathUnique))
-	_, _ = _redis.Do("SADD", siteUvKey, userIdentity)
-	_, _ = _redis.Do("SADD", pageUvKey, userIdentity)
+	sitePv, _ := _redis.Incr(ctx, sitePvKey).Result()
+	pagePv, _ := _redis.ZIncrBy(ctx, pagePvKey, 1, pathUnique).Result() // pagePv 使用 ZSet 存储
 
-	siteUv, _ := redis.Int(_redis.Do("SCARD", siteUvKey))
-	pageUv, _ := redis.Int(_redis.Do("SCARD", pageUvKey))
+	// siteUv 和 pageUv 使用 Set 存储
+	_, _ = _redis.SAdd(ctx, siteUvKey, userIdentity).Result()
+	_, _ = _redis.SAdd(ctx, pageUvKey, userIdentity).Result()
 
-	if config.Bsz.Expire > 0 {
-		go setExpire(sitePvKey, siteUvKey, pagePvKey, pageUvKey)
-	}
+	siteUv, _ := _redis.SCard(ctx, siteUvKey).Result()
+	pageUv, _ := _redis.SCard(ctx, pageUvKey).Result()
 
-	return sitePv, siteUv, pagePv, pageUv
-}
-
-func setExpire(key ...string) {
-	var _redis = redisutil.Pool.Get()
-	defer func(_redis redis.Conn) {
-		_ = _redis.Close()
-	}(_redis)
-	// multi-set expire
-	_, _ = _redis.Do("MULTI")
-	for _, k := range key {
-		_, _ = _redis.Do("EXPIRE", k, config.Bsz.Expire)
-	}
-	_, _ = _redis.Do("EXEC")
+	return sitePv, siteUv, int64(pagePv), pageUv
 }

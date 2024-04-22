@@ -40,7 +40,7 @@ func ApiHandler(c *gin.Context) {
 	userIdentity := c.GetString("user_identity")
 
 	// count
-	sitePv, siteUv, pagePv, pageUv := core.Count(host, path, userIdentity)
+	sitePv, siteUv, pagePv, pageUv := core.Count(c, host, path, userIdentity)
 
 	// json
 	c.JSON(200, gin.H{
