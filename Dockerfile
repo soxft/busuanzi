@@ -9,7 +9,7 @@ RUN set -evx -o pipefail        \
     && rm -rf /var/cache/apk/*  \
     && go build -ldflags="-s -w" -o busuanzi main.go
 
-FROM node:16-alpine as ts-builder
+FROM node:21-alpine as ts-builder
 WORKDIR /app
 COPY ./dist .
 RUN set -evx -o pipefail        \
