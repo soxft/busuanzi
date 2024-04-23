@@ -2,6 +2,7 @@ package redisutil
 
 import (
 	"context"
+	"crypto/tls"
 	"github.com/redis/go-redis/v9"
 	"github.com/soxft/busuanzi/config"
 
@@ -16,10 +17,19 @@ func Init() {
 
 	r := config.Redis
 
+	var tlsConfig *tls.Config
+
+	if r.TLS {
+		tlsConfig = &tls.Config{
+			MinVersion: tls.VersionTLS12,
+		}
+	}
+
 	rdb := redis.NewClient(&redis.Options{
 		Addr:            r.Address,
 		Password:        r.Password,
 		DB:              r.Database,
+		TLSConfig:       tlsConfig,
 		MinIdleConns:    r.MinIdle,
 		MaxIdleConns:    r.MaxIdle,
 		MaxRetries:      r.MaxRetries,
