@@ -6,7 +6,14 @@ import (
 	"github.com/soxft/busuanzi/config"
 	"github.com/soxft/busuanzi/library/tool"
 	"github.com/soxft/busuanzi/process/redisutil"
+	"strings"
 )
+
+//index		数据类型	        key
+//sitePv	string	        bsz:site_pv:md5(example.com)
+//siteUv	HyperLogLog		bsz:site_uv:md5(example.com)
+//pagePv	zset	        bsz:page_pv:md5(example.com)
+//pageUv	HyperLogLog		bsz:site_uv:md5(example.com):md5(example.com&index.html)
 
 // Count
 // @description return and count the number of users in the redis
@@ -14,8 +21,8 @@ func Count(ctx context.Context, host string, path string, userIdentity string) (
 	_redis := redisutil.RDB
 
 	// encode
-	var pathUnique = tool.Md5(host + "&" + path)
-	var siteUnique = tool.Md5(host)
+	var pathUnique = strings.ToLower(tool.Md5(host + "&" + path))
+	var siteUnique = strings.ToLower(tool.Md5(host))
 
 	redisPrefix := config.Redis.Prefix
 
@@ -31,12 +38,13 @@ func Count(ctx context.Context, host string, path string, userIdentity string) (
 	sitePv, _ := _redis.Incr(ctx, sitePvKey).Result()
 	pagePv, _ := _redis.ZIncrBy(ctx, pagePvKey, 1, pathUnique).Result() // pagePv 使用 ZSet 存储
 
-	// siteUv 和 pageUv 使用 Set 存储
-	_, _ = _redis.SAdd(ctx, siteUvKey, userIdentity).Result()
-	_, _ = _redis.SAdd(ctx, pageUvKey, userIdentity).Result()
+	// siteUv 和 pageUv 使用 HyperLogLog 存储
+	_redis.PFAdd(ctx, siteUvKey, userIdentity)
+	_redis.PFAdd(ctx, pageUvKey, userIdentity)
 
-	siteUv, _ := _redis.SCard(ctx, siteUvKey).Result()
-	pageUv, _ := _redis.SCard(ctx, pageUvKey).Result()
+	// count siteUv and pageUv
+	siteUv, _ := _redis.PFCount(ctx, siteUvKey).Result()
+	pageUv, _ := _redis.PFCount(ctx, pageUvKey).Result()
 
 	return sitePv, siteUv, int64(pagePv), pageUv
 }
