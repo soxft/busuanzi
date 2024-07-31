@@ -23,3 +23,24 @@ jobs:
           context: .
           file: ./Dockerfile
           push: false
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
+      - name: Build
+        run: |
+          GOOS=linux GOARCH=amd64 go build -o busuanzi-linux-amd64
+          GOOS=linux GOARCH=arm64 go build -o busuanzi-linux-arm64
+          GOOS=darwin GOARCH=amd64 go build -o busuanzi-darwin-amd64
+          GOOS=darwin GOARCH=arm64 go build -o busuanzi-darwin-arm64
+          GOOS=windows GOARCH=amd64 go build -o busuanzi-windows-amd64.exe
+          GOOS=windows GOARCH=arm64 go build -o busuanzi-windows-arm64.exe
+          GOOS=windows GOARCH=386 go build -o busuanzi-windows-386.exe
