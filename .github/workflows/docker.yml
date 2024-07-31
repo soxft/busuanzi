@@ -28,7 +28,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: xcsoft/busuanzi:${{ github.ref }}
+          tags: xcsoft/busuanzi:${{ github.ref_name }}
 
   github-docker:
     runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/soxft/busuanzi:${{ github.ref }}
+          tags: ghcr.io/soxft/busuanzi:${{ github.ref_name }}
 
   build:
     runs-on: ubuntu-latest
@@ -92,3 +92,4 @@ jobs:
           release_name: ${{ github.ref }}
           tag_name: ${{ github.ref }}
           body: ${{ github.event.release.body }}
+          draft: true
