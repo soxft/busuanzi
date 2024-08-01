@@ -3,7 +3,7 @@ name: Docker Image CI
 on:
   push:
     tags:
-      - "v*"
+      - "v*.*.*"
 
 jobs:
   docker-hub:
@@ -68,28 +68,28 @@ jobs:
 
       - name: Build
         run: |
-          GOOS=linux GOARCH=amd64 go build -o busuanzi-linux-amd64
-          GOOS=linux GOARCH=arm64 go build -o busuanzi-linux-arm64
-          GOOS=darwin GOARCH=amd64 go build -o busuanzi-darwin-amd64
-          GOOS=darwin GOARCH=arm64 go build -o busuanzi-darwin-arm64
-          GOOS=windows GOARCH=amd64 go build -o busuanzi-windows-amd64.exe
-          GOOS=windows GOARCH=arm64 go build -o busuanzi-windows-arm64.exe
-          GOOS=windows GOARCH=386 go build -o busuanzi-windows-386.exe
+          GOOS=linux GOARCH=amd64 go build -o busuanzi-linux-amd64-${{ github.ref_name }}
+          GOOS=linux GOARCH=arm64 go build -o busuanzi-linux-arm64-${{ github.ref_name }}
+          GOOS=darwin GOARCH=amd64 go build -o busuanzi-darwin-amd64-${{ github.ref_name }}
+          GOOS=darwin GOARCH=arm64 go build -o busuanzi-darwin-arm64-${{ github.ref_name }}
+          GOOS=windows GOARCH=amd64 go build -o busuanzi-windows-amd64-${{ github.ref_name }}.exe
+          GOOS=windows GOARCH=arm64 go build -o busuanzi-windows-arm64-${{ github.ref_name }}.exe
+          GOOS=windows GOARCH=386 go build -o busuanzi-windows-386-${{ github.ref_name }}.exe
 
       - name: Archive
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            busuanzi-linux-amd64
-            busuanzi-linux-arm64
-            busuanzi-darwin-amd64
-            busuanzi-darwin-arm64
-            busuanzi-windows-amd64.exe
-            busuanzi-windows-arm64.exe
-            busuanzi-windows-386.exe
+            busuanzi-linux-amd64-${{ github.ref_name }}
+            busuanzi-linux-arm64-${{ github.ref_name }}
+            busuanzi-darwin-amd64-${{ github.ref_name }}
+            busuanzi-darwin-arm64-${{ github.ref_name }}
+            busuanzi-windows-amd64-${{ github.ref_name }}.exe
+            busuanzi-windows-arm64-${{ github.ref_name }}.exe
+            busuanzi-windows-386-${{ github.ref_name }}.exe
           token: ${{ secrets.GITHUB_TOKEN }}
-          release_name: ${{ github.ref }}
-          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
           body: ${{ github.event.release.body }}
           draft: true
