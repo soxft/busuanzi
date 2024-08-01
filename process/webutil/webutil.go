@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/soxft/busuanzi/app/middleware"
+	"github.com/soxft/busuanzi/config"
 	"github.com/spf13/viper"
 	"log"
 	"net/url"
@@ -45,6 +46,7 @@ func Init() {
 	}
 	r.Use(gin.Recovery())
 	r.Use(middleware.Cors())
+	r.LoadHTMLFiles(config.DistPath + "/index.html")
 
 	// routers
 	initRoute(r)
