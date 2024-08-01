@@ -25,12 +25,12 @@
 
 UV 与 PV 数据分别采用以下方式进行存储:
 
-| index  | 数据类型        | key                              |
-|--------|-------------|----------------------------------|
-| sitePv | Str         | bsz:site_pv:md5(host)            |
-| siteUv | HyperLogLog | bsz:site_uv:md5(host)            |
-| pagePv | Zset        | bsz:page_pv:md5(host&path)       |
-| pageUv | HyperLogLog | bsz:site_uv:md5(hostm):md5(path) |
+| index  | 数据类型        | key                               |
+|--------|-------------|-----------------------------------|
+| sitePv | String      | bsz:site_pv:md5(host)             |
+| siteUv | HyperLogLog | bsz:site_uv:md5(host)             |
+| pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
+| pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
 
 ## 其他
 
