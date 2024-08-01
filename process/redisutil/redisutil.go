@@ -4,38 +4,34 @@ import (
 	"context"
 	"crypto/tls"
 	"github.com/redis/go-redis/v9"
-	"github.com/soxft/busuanzi/config"
+	"github.com/spf13/viper"
+	"time"
 
 	"log"
-	"time"
 )
 
 var RDB *redis.Client
 
 func Init() {
-	log.Printf("[INFO] Redis trying connect to tcp://%s/%d", config.Redis.Address, config.Redis.Database)
+	log.Printf("[INFO] Redis trying connect to tcp://%s/%d", viper.GetString("redis.address"), viper.GetInt("redis.database"))
 
-	r := config.Redis
-
-	var tlsConfig *tls.Config
-
-	if r.TLS {
-		tlsConfig = &tls.Config{
+	option := &redis.Options{
+		Addr:            viper.GetString("redis.address"),
+		Password:        viper.GetString("redis.password"),
+		DB:              viper.GetInt("redis.database"),
+		MinIdleConns:    viper.GetInt("redis.MinIdle"),
+		MaxIdleConns:    viper.GetInt("redis.MaxIdle"),
+		MaxRetries:      viper.GetInt("redis.MaxRetries"),
+		MaxActiveConns:  viper.GetInt("redis.MaxActive"),
+		ConnMaxLifetime: 5 * time.Minute,
+	}
+	if viper.GetBool("redis.tls") {
+		option.TLSConfig = &tls.Config{
 			MinVersion: tls.VersionTLS12,
 		}
 	}
 
-	rdb := redis.NewClient(&redis.Options{
-		Addr:            r.Address,
-		Password:        r.Password,
-		DB:              r.Database,
-		TLSConfig:       tlsConfig,
-		MinIdleConns:    r.MinIdle,
-		MaxIdleConns:    r.MaxIdle,
-		MaxRetries:      r.MaxRetries,
-		ConnMaxLifetime: 5 * time.Minute,
-		MaxActiveConns:  r.MaxActive,
-	})
+	rdb := redis.NewClient(option)
 
 	RDB = rdb
 

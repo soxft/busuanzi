@@ -28,7 +28,6 @@ COPY --from=ts-builder /app /app/dist
 COPY --from=builder /app/config.yaml /app/config.yaml
 COPY --from=builder /app/entrypoint.sh /app
 
-# remove cache
 RUN chmod +x /app/entrypoint.sh
 
 EXPOSE 8080
