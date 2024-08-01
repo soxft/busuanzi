@@ -1,6 +1,5 @@
 package config
 
-import "C"
 import (
 	"flag"
 	"github.com/spf13/viper"
