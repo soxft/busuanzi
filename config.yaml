@@ -21,4 +21,4 @@ Bsz:
 
 
 # TIPS, 所有 config 内的设置, 均可使用 环境变量 覆盖
-# Ex BSZ_JWTSECRET=123 将覆盖 config.yaml 中的 Bsz.JwtSecret
+# Ex BSZ_SECRET=123 将覆盖 config.yaml 中的 Bsz.Secret
