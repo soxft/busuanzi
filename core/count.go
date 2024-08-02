@@ -108,6 +108,7 @@ func Get(ctx context.Context, host string, path string, userIdentity string) Cou
 
 // setExpire
 // @description set the expiration time of the key
+// TODO 使用 MQ 进行防抖消重, 避免频繁调用
 func setExpire(ctx context.Context, key ...string) {
 	if viper.GetInt("bsz.expire") == 0 {
 		return
