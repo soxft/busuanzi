@@ -9,7 +9,16 @@ import (
 
 func initRoute(r *gin.Engine) {
 	{
-		r.Any("/api", middleware.Identity(), controller.ApiHandler)
+		api := r.Group("/api")
+		{
+			api.GET("/status", controller.GetHandler)
+
+			api.Use(middleware.Identity())
+			api.POST("", controller.ApiHandler)
+			api.GET("", controller.ApiHandler)
+			api.PUT("", controller.PutHandler)
+		}
+
 		r.GET("/ping", controller.PingHandler)
 
 		static := r.Group("/")

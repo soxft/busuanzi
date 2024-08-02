@@ -10,7 +10,7 @@
 
     let bsz_send: Function = function () {
         let xhr: XMLHttpRequest = new XMLHttpRequest();
-        xhr.open("POST", api, true);
+        xhr.open("GET", api, true);
 
         // set user identity
         let token: string | null = localStorage.getItem(storageName);
