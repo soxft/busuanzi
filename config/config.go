@@ -10,7 +10,7 @@ import (
 var (
 	configPath string
 	DistPath   string
-	VERSION    = "2.8.0"
+	VERSION    = "2.8.1"
 )
 
 func Init() {
