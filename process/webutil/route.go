@@ -11,11 +11,9 @@ func initRoute(r *gin.Engine) {
 	{
 		api := r.Group("/api")
 		{
-			api.GET("/status", controller.GetHandler)
-
 			api.Use(middleware.Identity())
 			api.POST("", controller.ApiHandler)
-			api.GET("", controller.ApiHandler)
+			api.GET("", controller.GetHandler)
 			api.PUT("", controller.PutHandler)
 		}
 
