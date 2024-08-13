@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine as builder
+FROM golang:1.21-alpine AS builder
 WORKDIR /app
 
 #ENV GOPROXY=https://goproxy.cn,direct
@@ -9,7 +9,7 @@ RUN set -evx -o pipefail        \
     && rm -rf /var/cache/apk/*  \
     && go build -ldflags="-s -w" -o busuanzi main.go
 
-FROM node:21-alpine as ts-builder
+FROM node:21-alpine AS ts-builder
 WORKDIR /app
 COPY ./dist .
 RUN set -evx -o pipefail        \
