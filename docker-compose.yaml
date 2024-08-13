@@ -6,7 +6,7 @@ services:
       - ./data/redis:/data
   
   bsz:
-    image: "xcsoft/busuanzi:v2.8.2"
+    image: "xcsoft/busuanzi:latest"
     ports:
       - "8080:8080"
     volumes:
