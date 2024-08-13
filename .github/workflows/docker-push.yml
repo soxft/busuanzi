@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - "v*.*.*"
+      - "!*_rc"
+      - "!*_beta"
 
 jobs:
   docker-hub:
