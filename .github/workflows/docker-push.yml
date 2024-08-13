@@ -42,5 +42,5 @@ jobs:
           tags: |
             xcsoft/busuanzi:${{ github.ref_name }}
             ghcr.io/xcsoft/busuanzi:${{ github.ref_name }}
-            xcsoft/busuanzi:lastest
-            ghcr.io/xcsoft/busuanzi:lastest
+            xcsoft/busuanzi:latest
+            ghcr.io/xcsoft/busuanzi:latest
