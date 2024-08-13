@@ -31,6 +31,12 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: xcsoft/busuanzi:${{ github.ref_name }}
+      -
+        # 如果不是 rc 和 beta 版本, 则推送 latest 标签
+        name: Push latest tag
+        if: contains(github.ref_name, 'v') && !contains(github.ref_name, 'rc') && !contains(github.ref_name, 'beta')
+        run: docker tag xcsoft/busuanzi:${{ github.ref_name }} xcsoft/busuanzi:latest && docker push xcsoft/busuanzi:latest
+
 
   github-docker:
     runs-on: ubuntu-latest
@@ -56,3 +62,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ghcr.io/soxft/busuanzi:${{ github.ref_name }}
+
+      - name: Push latest tag
+        if: contains(github.ref_name, 'v') && !contains(github.ref_name, 'rc') && !contains(github.ref_name, 'beta')
+        run: docker tag ghcr.io/soxft/busuanzi:${{ github.ref_name }} ghcr.io/soxft/busuanzi:latest && docker push ghcr.io/soxft/busuanzi:latest
