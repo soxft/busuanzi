@@ -3,7 +3,8 @@ name: Docker Image CI
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "*_rc"
+      - "*_beta"
 
 jobs:
   docker-hub:
@@ -40,5 +41,3 @@ jobs:
           tags: |
             xcsoft/busuanzi:${{ github.ref_name }}
             ghcr.io/xcsoft/busuanzi:${{ github.ref_name }}
-            xcsoft/busuanzi:lastest
-            ghcr.io/xcsoft/busuanzi:lastest
