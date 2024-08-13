@@ -58,5 +58,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/xcsoft/busuanzi:${{ github.ref_name }}
-            ghcr.io/xcsoft/busuanzi:latest
+            ghcr.io/soxft/busuanzi:${{ github.ref_name }}
+            ghcr.io/soxft/busuanzi:latest
