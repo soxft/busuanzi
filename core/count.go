@@ -9,11 +9,11 @@ import (
 	"time"
 )
 
-//index		数据类型	        key
-//sitePv	Str	            bsz:site_pv:md5(host)
-//siteUv	HyperLogLog		bsz:site_uv:md5(host)
-//pagePv	zset	        bsz:page_pv:md5(host) / md5(path)
-//pageUv	HyperLogLog		bsz:site_uv:md5(host):md5(path)
+// index		数据类型	        key
+// sitePv	Str	            bsz:site_pv:md5(host)
+// siteUv	HyperLogLog		bsz:site_uv:md5(host)
+// pagePv	zset	        bsz:page_pv:md5(host) / md5(path)
+// pageUv	HyperLogLog		bsz:site_uv:md5(host):md5(path)
 
 type Counts struct {
 	SitePv int64
