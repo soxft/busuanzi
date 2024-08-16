@@ -13,7 +13,7 @@ import (
 //sitePv	Str	            bsz:site_pv:md5(host)
 //siteUv	HyperLogLog		bsz:site_uv:md5(host)
 //pagePv	zset	        bsz:page_pv:md5(host) / md5(path)
-//pageUv	HyperLogLog		bsz:site_uv:md5(host):md5(host&path)
+//pageUv	HyperLogLog		bsz:site_uv:md5(host):md5(path)
 
 type Counts struct {
 	SitePv int64
@@ -123,7 +123,7 @@ func setExpire(ctx context.Context, key ...string) {
 
 func getKeys(host string, path string) RKeys {
 	var siteUnique = host
-	var pathUnique = host + path
+	var pathUnique = path
 
 	// 兼容旧版本
 	if viper.GetBool("bsz.pathStyle") == false {
