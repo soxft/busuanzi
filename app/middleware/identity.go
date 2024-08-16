@@ -2,27 +2,27 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 	"github.com/soxft/busuanzi/library/jwtutil"
 	"github.com/soxft/busuanzi/library/tool"
-	"strings"
+	"net/http"
 )
 
 func Identity() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Expose-Headers", "Set-Bsz-Identity")
+		//c.Writer.Header().Set("Access-Control-Expose-Headers", "Set-Bsz-Identity")
 
 		// token
 		var userIdentity string
-		tokenTmp := c.Request.Header.Get("Authorization")
+		tokenTmp, err := c.Request.Cookie("bsz_id")
 
-		if tokenTmp == "" {
+		if errors.Is(err, http.ErrNoCookie) {
 			// generate jwt token
 			userIdentity = getUserIdentity(c)
 			setBszIdentity(c, userIdentity)
 		} else {
-			token := strings.Replace(tokenTmp, "Bearer ", "", -1)
 			// check if token is illegal
-			if userIdentity = jwtutil.Check(token); userIdentity == "" {
+			if userIdentity = jwtutil.Check(tokenTmp.Value); userIdentity == "" {
 				// fake data, regenerate jwt token
 				userIdentity = getUserIdentity(c)
 				setBszIdentity(c, userIdentity)
@@ -35,7 +35,7 @@ func Identity() gin.HandlerFunc {
 
 func setBszIdentity(c *gin.Context, userIdentity string) {
 	uid := jwtutil.Generate(userIdentity)
-	c.Writer.Header().Set("Set-Bsz-Identity", uid)
+	c.SetCookie("bsz_id", uid, 86400, "/", "", false, true)
 }
 
 func getUserIdentity(c *gin.Context) string {

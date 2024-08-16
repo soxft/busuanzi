@@ -5,16 +5,13 @@
         current: HTMLOrSVGScriptElement = document.currentScript,
         pjax: boolean = current.hasAttribute("pjax"),
         api: string = current.getAttribute("data-api") || url,
-        prefix: string = current.getAttribute("data-prefix") || "busuanzi",
-        storageName: string = "bsz-id";
+        prefix: string = current.getAttribute("data-prefix") || "busuanzi";
 
     let bsz_send: Function = function () {
         let xhr: XMLHttpRequest = new XMLHttpRequest();
         xhr.open("POST", api, true);
 
         // set user identity
-        let token: string | null = localStorage.getItem(storageName);
-        if (token != null) xhr.setRequestHeader("Authorization", "Bearer " + token);
         xhr.setRequestHeader("x-bsz-referer", window.location.href);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
@@ -28,9 +25,6 @@
                             let container = document.getElementById(`${prefix}_container_${tag}`);
                             if (container != null) container.style.display = "inline";
                         })
-
-                        let setIdentity = xhr.getResponseHeader("Set-Bsz-Identity")
-                        if (setIdentity != null && setIdentity != "") localStorage.setItem(storageName, setIdentity);
                     }
                 }
             }
