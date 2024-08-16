@@ -38,4 +38,4 @@
 
 - 请务必在升级前备份数据 (dump.rdb)
 - 新老版本数据可能并不兼容, 请注意 Release 界面的说明, 谨慎升级
-- 2.5.x - 2.7.x 可以使用 [bsz-transfer](https://github.com/soxft/busuanzi-transfer) 工具进行数据迁移
+- 2.5.x - 2.7.x 可以使用 [bsz-transfer](https://github.com/soxft/busuanzi-transfer) 工具进行数据迁移至 2.8.x
