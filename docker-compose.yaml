@@ -20,7 +20,6 @@ services:
       WEB_LOG: true
       WEB_DEBUG: false
       WEB_CORS: "*"
-      WEB_APIDOMAIN: "bsz.iirose.cn"
       BSZ_EXPIRE: 0
       BSZ_SECRET: secret
       REDIS_ADDRESS: redis:6379
