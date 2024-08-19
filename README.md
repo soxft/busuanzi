@@ -32,7 +32,7 @@ Supports multiple custom attributes, compatible with pjax web pages, supports cu
 
 UV and PV data are stored in the following keys:
 
-| index  | 数据类型        | key                               |
+| index  | Types       | key                               |
 |--------|-------------|-----------------------------------|
 | sitePv | String      | bsz:site_pv:md5(host)             |
 | siteUv | HyperLogLog | bsz:site_uv:md5(host)             |
