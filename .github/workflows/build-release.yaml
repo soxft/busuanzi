@@ -40,7 +40,6 @@ jobs:
             busuanzi-windows-arm64-${{ github.ref_name }}.exe
             busuanzi-windows-386-${{ github.ref_name }}.exe
           token: ${{ secrets.GITHUB_TOKEN }}
-          release_name: ${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}
           body: ${{ github.event.release.body }}
           draft: true

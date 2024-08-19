@@ -1,30 +1,36 @@
 [![soxft/busuanzi](https://socialify.git.ci/soxft/busuanzi/image?description=1&font=Bitter&forks=1&language=1&logo=https://raw.githubusercontent.com/soxft/busuanzi/main/dist/favicon.svg&name=1&owner=1&pattern=Solid&stargazers=1&theme=Dark)](https://busuanzi.9420.ltd)
 
-## 自建不蒜子
+- [简体中文](readme/README.zh_CN.md)
 
-> 一个基于 Golang + Redis 的简易访问量统计系统
->
+## self-hosted busuanzi
+
 > A simple visitor statistics system based on Golang + Redis
 
-- 统计站点的 UV, PV
-- 统计子页面的 UV, PV
-- 使用 Docker 一键部署
-- 隐私保障 仅存储 HASH
-- 兼容 Pjax 技术的网页
+- Calculate the UV and PV of the website
+- Calculate the UV and PV of the subpage
+- One-click deployment using Docker
+- Privacy protection only stores HASH
+- Pjax compatible webpage
 
-## 安装
+## Installation
 
-支持多种运行方式: 源码编译运行, Docker 运行. 详见: [Install](https://github.com/soxft/busuanzi/wiki/install)
+Support multiple running methods: compile and run from source code, run with Docker. See [Install](https://github.com/soxft/busuanzi/wiki/install) for details
 
-## 使用方式
+### Quick Start with Docker
 
-支持多种自定义属性, 兼容 pjax 网页, 支持自定义 标签前缀. 详见: [使用文档](https://github.com/soxft/busuanzi/wiki/usage)
+1. Edit the `docker-compose.yaml` file with your own configuration.
+2. Run `docker-compose up -d` to start the service. 
+3. Visit `http://localhost:8080` to view the data.
 
-## 原理
+## Usage
 
-- `Busuanzi` 使用 Redis 进行数据存储与检索。Redis 作为内存数据库拥有极高的读写性能，同时其独特的`RDB`与`AOF`持久化方式，使得 Redis 的数据安全得到保障。
+Supports multiple custom attributes, compatible with pjax web pages, supports custom tag prefixes. See: [Usage documentation](https://github.com/soxft/busuanzi/wiki/usage)
 
-- UV 与 PV 数据分别采用以下方式进行存储:
+## Principle
+
+- `Busuanzi` uses Redis for data storage and retrieval. Redis, as an in-memory database, has extremely high read and write performance. At the same time, its unique RDB and AOF persistence mechanisms ensure the security of Redis data.
+
+UV and PV data are stored in the following keys:
 
 | index  | 数据类型        | key                               |
 |--------|-------------|-----------------------------------|
@@ -34,8 +40,8 @@
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
 
 
-## 升级建议
+## Upgrade Suggestions
 
-- 请务必在升级前备份数据 (dump.rdb)
-- 新老版本数据可能并不兼容, 请注意 Release 界面的说明, 谨慎升级
-- 2.5.x - 2.7.x 可以使用 [bsz-transfer](https://github.com/soxft/busuanzi-transfer) 工具进行数据迁移至 2.8.x
+- Please be sure to back up your data (dump.rdb) before upgrading.
+- New and old version data may not be compatible, please pay attention to the instructions on the Release interface, upgrade cautiously
+- 2.5.x - 2.7.x can use the [bsz-transfer](https://github.com/soxft/busuanzi-transfer) tool to migrate data to 2.8.x.

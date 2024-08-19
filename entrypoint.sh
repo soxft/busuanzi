@@ -15,4 +15,4 @@ if [ ! -f "/app/expose/install.lock" ];then
   touch /app/expose/install.lock
 fi
 
-exec /app/busuanzi -c ./expose/config.yaml -d ./expose/dist
+exec /app/busuanzi -c /app/expose/config.yaml -d /app/expose/dist
