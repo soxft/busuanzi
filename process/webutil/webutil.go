@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/soxft/busuanzi/app/middleware"
 	"github.com/soxft/busuanzi/config"
+	"github.com/soxft/busuanzi/process/redisutil"
 	"github.com/spf13/viper"
 	"log"
 	"net/url"
@@ -31,6 +32,11 @@ func Init() {
 			// ban ping
 			if param.Request.URL.Path == "/ping" || param.Method == "OPTIONS" {
 				return ""
+			}
+
+			// 使用 zSet 记录访问量
+			if referer != "N/A" {
+				redisutil.RDB.ZIncrBy(param.Request.Context(), "bsz:log", 1, referer)
 			}
 
 			return fmt.Sprintf("[GIN] %v | %d | %13v | %20s | %40s | %-6s \"%s\"\n",
