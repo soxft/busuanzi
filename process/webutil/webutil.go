@@ -1,6 +1,7 @@
 package webutil
 
 import (
+	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/soxft/busuanzi/app/middleware"
@@ -36,10 +37,10 @@ func Init() {
 
 			// 使用 zSet 记录访问量
 			if referer != "N/A" {
-				redisutil.RDB.ZIncrBy(param.Request.Context(), "bsz:log", 1, referer)
+				redisutil.RDB.ZIncrBy(context.Background(), "bsz:log", 1, referer)
 			}
 
-			return fmt.Sprintf("[GIN] %v | %d | %13v | %20s | %40s | %-6s \"%s\"\n",
+			return fmt.Sprintf("[BSZ] %v | %d | %13v | %20s | %40s | %-6s \"%s\"\n",
 				param.TimeStamp.Format("2006/01/02 - 15:04:05"),
 				param.StatusCode,
 				param.Latency,
