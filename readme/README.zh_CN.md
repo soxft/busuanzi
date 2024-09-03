@@ -1,4 +1,4 @@
-[![soxft/busuanzi](https://socialify.git.ci/soxft/busuanzi/image?description=1&font=Bitter&forks=1&language=1&logo=https://raw.githubusercontent.com/soxft/busuanzi/main/dist/favicon.svg&name=1&owner=1&pattern=Solid&stargazers=1&theme=Dark)](https://busuanzi.9420.ltd)
+[![soxft/busuanzi](https://socialify.git.ci/soxft/busuanzi/image?description=1&font=Bitter&forks=1&language=1&logo=https://raw.githubusercontent.com/soxft/busuanzi/main/dist/favicon.webp&name=1&owner=1&pattern=Solid&stargazers=1&theme=Dark)](https://busuanzi.9420.ltd)
 
 ## 自建不蒜子
 
@@ -31,6 +31,10 @@
 | pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
 
+
+## 其他
+
+Logo 由 ChatGPT 设计
 
 ## 升级建议
 
