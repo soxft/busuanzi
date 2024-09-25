@@ -24,3 +24,5 @@ services:
       BSZ_SECRET: "bsz"                         # 签名密钥 // 请设置为任意长度的随机值
       API_SERVER: http:\/\/127.0.0.1:8080\/api  # 填写你的 API 地址 需要转译 (即 用 `\/` 替代 `/`)
       REDIS_ADDRESS: redis:6379                 # redis 地址
+      BSZ_PATHSTYLE: true
+      BSZ_ENCRYPT: MD516
