@@ -7,7 +7,7 @@ on:
     branches: [ "dev", "main" ]
 
 jobs:
-  docker-build:
+  docker-hub:
     runs-on: ubuntu-latest
     steps:
       -
@@ -17,13 +17,14 @@ jobs:
         name: Set up Docker Build Context
         uses: docker/setup-buildx-action@v3
       -
-        name: Build
+        name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: false
-
+          tags: |
+            xcsoft/busuanzi:${{ github.ref_name }}
   build:
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +34,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.21
+          go-version: 1.22
 
       - name: Build
         run: |
