@@ -9,6 +9,7 @@
 - 使用 Docker 一键部署
 - 隐私保障 仅存储 HASH
 - 兼容 Pjax 技术的网页
+- 支持从原版不蒜子迁移数据
 
 ## 安装
 
@@ -31,6 +32,10 @@
 | pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
 
+
+## 数据迁移
+
+- 可使用 [busuanzi-sync](https://github.com/soxft/busuanzi-sync) 工具迁移[原版不蒜子](http://busuanzi.ibruce.info)的数据
 
 ## 其他
 

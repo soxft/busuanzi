@@ -11,6 +11,7 @@
 - One-click deployment using Docker
 - Privacy protection only stores HASH
 - Pjax compatible webpage
+- Support migration from the original busuanzi
 
 ## Installation
 
@@ -38,6 +39,10 @@ UV and PV data are stored in the following keys:
 | siteUv | HyperLogLog | bsz:site_uv:md5(host)             |
 | pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
+
+## Data Migration
+
+- You can use the [busuanzi-sync](https://github.com/soxft/busuanzi-sync) tool to sync data from the [original busuanzi](http://busuanzi.ibruce.info) to the self-hosted busuanzi.
 
 ## Other
 
