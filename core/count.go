@@ -82,7 +82,7 @@ func Put(ctx context.Context, host string, path string, userIdentity string) {
 }
 
 // Get bsz counts
-func Get(ctx context.Context, host string, path string, userIdentity string) Counts {
+func Get(ctx context.Context, host string, path string) Counts {
 	_redis := redisutil.RDB
 
 	rk := getKeys(host, path)

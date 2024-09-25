@@ -118,7 +118,7 @@ func GetHandler(c *gin.Context) {
 	var path = u.Path
 
 	// count
-	counts := core.Get(c, host, path, c.GetString("user_identity"))
+	counts := core.Get(c, host, path)
 
 	// json
 	c.JSON(200, gin.H{
