@@ -3,10 +3,10 @@
     let url: string = "http://127.0.0.1:8080/api",
         tags: string[] = ["site_pv", "site_uv", "page_pv", "page_uv"],
         current: HTMLOrSVGScriptElement = document.currentScript,
-        pjax: boolean = current.hasAttribute("pjax"),
-        api: string = current.getAttribute("data-api") || url,
-        prefix: string = current.getAttribute("data-prefix") || "busuanzi",
-        storageName: string = "bsz-id";
+        pjax: boolean = current.hasAttribute("pjax"),                          // 是否启用 pjax
+        api: string = current.getAttribute("data-api") || url,                 // 自定义后端地址
+        prefix: string = current.getAttribute("data-prefix") || "busuanzi",    // 自定义标签ID前缀
+        storageName: string = "bsz-id";                                        // 本地存储名称
 
     let bsz_send: Function = function () {
         let xhr: XMLHttpRequest = new XMLHttpRequest();
