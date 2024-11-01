@@ -34,7 +34,6 @@
         // set user identity
         let token: string | null = localStorage.getItem(storageName);
         if (token != null) xhr.setRequestHeader("Authorization", "Bearer " + token);
-        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("x-bsz-referer", window.location.href);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
