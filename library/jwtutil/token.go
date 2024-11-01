@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
+// Generate a token
 // not a standard JWT, only to prevent the fake data
-
 func Generate(userIdentity string) string {
 	sign := tool.Sha256(userIdentity, viper.GetString("bsz.secret"))
 	return userIdentity + "." + sign

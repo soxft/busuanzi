@@ -2,7 +2,7 @@ Web:
   Address: 0.0.0.0:8080 # 监听地址
   Cors: "https://xsot.cn,https://google.com" # 跨域访问
   Debug: false # 是否开启debug模式
-  Log: true # 是否开启日志
+  Log: false # 是否开启日志
 Redis:
   Address: redis:6379 # redis地址
   Password:

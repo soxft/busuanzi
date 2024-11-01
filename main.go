@@ -9,5 +9,6 @@ import (
 func main() {
 	config.Init()
 	redisutil.Init()
+
 	webutil.Init()
 }

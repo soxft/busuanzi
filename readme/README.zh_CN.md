@@ -1,4 +1,4 @@
-[![soxft/busuanzi](https://socialify.git.ci/soxft/busuanzi/image?description=1&font=Bitter&forks=1&language=1&logo=https://raw.githubusercontent.com/soxft/busuanzi/main/dist/favicon.svg&name=1&owner=1&pattern=Solid&stargazers=1&theme=Dark)](https://busuanzi.9420.ltd)
+[![soxft/busuanzi](https://socialify.cmds.run/soxft/busuanzi/image?description=1&font=Raleway&forks=1&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2Fsoxft%2Fbusuanzi%2Fmain%2Fdist%2Ffavicon.png&name=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Dark&cache=43200)](https://busuanzi.9420.ltd)
 
 ## 自建不蒜子
 
@@ -9,6 +9,7 @@
 - 使用 Docker 一键部署
 - 隐私保障 仅存储 HASH
 - 兼容 Pjax 技术的网页
+- 支持从原版不蒜子迁移数据
 
 ## 安装
 
@@ -31,6 +32,14 @@
 | pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
 
+
+## 数据迁移
+
+- 可使用 [busuanzi-sync](https://github.com/soxft/busuanzi-sync) 工具迁移[原版不蒜子](http://busuanzi.ibruce.info)的数据
+
+## 其他
+
+Logo 由 ChatGPT 设计
 
 ## 升级建议
 

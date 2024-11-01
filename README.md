@@ -1,4 +1,4 @@
-[![soxft/busuanzi](https://socialify.git.ci/soxft/busuanzi/image?description=1&font=Bitter&forks=1&language=1&logo=https://raw.githubusercontent.com/soxft/busuanzi/main/dist/favicon.svg&name=1&owner=1&pattern=Solid&stargazers=1&theme=Dark)](https://busuanzi.9420.ltd)
+[![soxft/busuanzi](https://socialify.cmds.run/soxft/busuanzi/image?description=1&font=Raleway&forks=1&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2Fsoxft%2Fbusuanzi%2Fmain%2Fdist%2Ffavicon.png&name=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Dark&cache=43200)](https://busuanzi.9420.ltd)
 
 - [简体中文](readme/README.zh_CN.md)
 
@@ -11,6 +11,7 @@
 - One-click deployment using Docker
 - Privacy protection only stores HASH
 - Pjax compatible webpage
+- Support migration from the original busuanzi
 
 ## Installation
 
@@ -39,6 +40,13 @@ UV and PV data are stored in the following keys:
 | pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
 
+## Data Migration
+
+- You can use the [busuanzi-sync](https://github.com/soxft/busuanzi-sync) tool to sync data from the [original busuanzi](http://busuanzi.ibruce.info) to the self-hosted busuanzi.
+
+## Other
+
+Logo created by ChatGPT
 
 ## Upgrade Suggestions
 
