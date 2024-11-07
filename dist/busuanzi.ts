@@ -10,21 +10,14 @@
         storageName: string = "bsz-id";                                        // 本地存储名称
 
     let format = (num: number, style: string = 'default'): string => {
-        switch (style) {
-            case "comma":
-                return num.toLocaleString();
-            case "short": {
-                let units = ["", "K", "M", "B", "T"];
-                let index = 0;
-                while (num >= 1000 && index < units.length - 1) {
-                    num /= 1000;
-                    index++;
-                }
-                return Math.round(num * 100) / 100 + units[index]; // 四舍五入到两位小数
-            }
-            default:
-                return num.toString();
+        if (style === "comma") return num.toLocaleString();
+        if (style === "short") {
+            const units = ["", "K", "M", "B", "T"];
+            let index = Math.floor(Math.log10(num) / 3);
+            num /= Math.pow(1000, index);
+            return `${Math.round(num * 100) / 100}${units[index]}`;
         }
+        return num.toString();
     };
 
     let bsz_send = () => {
