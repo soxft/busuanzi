@@ -10,7 +10,7 @@ import (
 var (
 	configPath string
 	DistPath   string
-	VERSION    = "2.8.6"
+	VERSION    = "2.8.7"
 	DEBUG      bool
 )
 
