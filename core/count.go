@@ -6,30 +6,7 @@ import (
 	"github.com/soxft/busuanzi/process/redisutil"
 	"github.com/spf13/viper"
 	"strings"
-	"time"
 )
-
-// index		数据类型	        key
-// sitePv	Str	            bsz:site_pv:md5(host)
-// siteUv	HyperLogLog		bsz:site_uv:md5(host)
-// pagePv	zset	        bsz:page_pv:md5(host) / md5(path)
-// pageUv	HyperLogLog		bsz:site_uv:md5(host):md5(path)
-
-type Counts struct {
-	SitePv int64
-	SiteUv int64
-	PagePv int64
-	PageUv int64
-}
-
-type RKeys struct {
-	SitePvKey  string
-	SiteUvKey  string
-	PagePvKey  string
-	PageUvKey  string
-	SiteUnique string
-	PathUnique string
-}
 
 // Count
 // @description return and count the number of users in the redis
@@ -51,7 +28,7 @@ func Count(ctx context.Context, host string, path string, userIdentity string) C
 	pageUv, _ := _redis.PFCount(ctx, rk.PageUvKey).Result()
 
 	// setExpire
-	go setExpire(ctx, rk.SiteUvKey, rk.PageUvKey, rk.SitePvKey, rk.PagePvKey)
+	go setExpire(rk.SiteUvKey, rk.PageUvKey, rk.SitePvKey, rk.PagePvKey)
 
 	return Counts{
 		SitePv: sitePv,
@@ -77,7 +54,7 @@ func Put(ctx context.Context, host string, path string, userIdentity string) {
 	_redis.PFAdd(ctx, rk.PageUvKey, userIdentity)
 
 	// setExpire
-	go setExpire(ctx, rk.SiteUvKey, rk.PageUvKey, rk.SitePvKey, rk.PagePvKey)
+	go setExpire(rk.SiteUvKey, rk.PageUvKey, rk.SitePvKey, rk.PagePvKey)
 	return
 }
 
@@ -96,28 +73,13 @@ func Get(ctx context.Context, host string, path string) Counts {
 	pageUv, _ := _redis.PFCount(ctx, rk.PageUvKey).Result()
 
 	// setExpire
-	go setExpire(ctx, rk.SiteUvKey, rk.PageUvKey, rk.SitePvKey, rk.PagePvKey)
+	go setExpire(rk.SiteUvKey, rk.PageUvKey, rk.SitePvKey, rk.PagePvKey)
 
 	return Counts{
 		SitePv: sitePv,
 		SiteUv: siteUv,
 		PagePv: int64(pagePv),
 		PageUv: pageUv,
-	}
-}
-
-// setExpire
-// @description set the expiration time of the key
-// TODO 使用 MQ 进行防抖消重, 避免频繁调用
-func setExpire(ctx context.Context, key ...string) {
-	if viper.GetInt("bsz.expire") == 0 {
-		return
-	}
-
-	_redis := redisutil.RDB
-
-	for _, k := range key {
-		_redis.Expire(ctx, k, viper.GetDuration("bsz.expire")*time.Second)
 	}
 }
 
