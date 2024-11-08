@@ -8,7 +8,7 @@ services:
       - "16379:6379"
 
   bsz:
-    image: "bsz:latest"
+    build: .
     ports:
       - "8099:8099"
     links:
