@@ -3,6 +3,7 @@ package core
 import (
 	"context"
 	camp "github.com/orcaman/concurrent-map/v2"
+	"github.com/soxft/busuanzi/config"
 	"github.com/soxft/busuanzi/process/redisutil"
 	"github.com/spf13/viper"
 	"log"
@@ -35,8 +36,9 @@ func InitExpire() {
 	// 监听 Expire chan 事件 消费
 	go func() {
 		for t := range expQ.Queue {
-			// log.Printf("Get Expire Queue %s \n", t)
-
+			if config.DEBUG {
+				log.Printf("[expire] Set %s expired with %d s \n", t, viper.GetDuration("bsz.expire"))
+			}
 			redisutil.RDB.Expire(context.Background(), t, viper.GetDuration("bsz.expire")*time.Second)
 		}
 	}()
@@ -67,14 +69,16 @@ func isInList(str string) bool {
 		var tSub = tNow.Sub(t)
 
 		if tSub < expTime {
-			// log.Printf("[%s] expire left %.2f (%d - %d) ignore \n", str, tSub.Seconds(), tNow.Unix(), t.Unix())
+			if config.DEBUG {
+				log.Printf("[expire] %s %.2f (%d -> %d) ignored \n", str, tSub.Seconds(), tNow.Unix(), t.Unix())
+			}
 
 			return true
+		} else {
+			if config.DEBUG {
+				log.Printf("[expire] %s %.2f (%d -> %d) expired \n", str, tSub.Seconds(), tNow.Unix(), t.Unix())
+			}
 		}
-		//else {
-		//	expQ.Cache.Remove(str)
-		//	log.Printf("[%s] expire left %.2f (%d - %d) delete \n", str, tSub.Seconds(), tNow.Unix(), t.Unix())
-		//}
 	}
 
 	return false

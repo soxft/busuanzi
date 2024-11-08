@@ -11,6 +11,7 @@ var (
 	configPath string
 	DistPath   string
 	VERSION    = "2.8.6"
+	DEBUG      bool
 )
 
 func Init() {
@@ -28,4 +29,6 @@ func Init() {
 	}
 
 	log.Printf("[INFO] Config loaded %s", viper.AllSettings())
+
+	DEBUG = viper.GetBool("debug")
 }
