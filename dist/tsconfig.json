@@ -4,10 +4,13 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "target": "es6",
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ]
   },
   "compileOnSave": true,
-  "files": [
-   "busuanzi.ts"
+  "include": [
+    "*.ts"
   ]
 }

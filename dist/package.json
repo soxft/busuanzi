@@ -2,6 +2,7 @@
   "name": "busuanzi",
   "description": "",
   "dependencies": {
+    "glob": "^11.0.0",
     "ts-loader": "^9.3.0",
     "typescript": "^4.6.4",
     "webpack": "5.95.0",
