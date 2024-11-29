@@ -10,19 +10,18 @@ services:
     build: .
     ports:
       - "8080:8080"                            # 修改映射到宿主机的端口 host:container
-    volumes:
-       - ./data/bsz:/app/expose
     links:
       - redis
     depends_on:
       - redis
     environment:
-      WEB_LOG: true                             # 是否开启日志
-      WEB_DEBUG: false                          # 是否开启debug模式
-      WEB_CORS: "*"                             # 跨域访问
-      BSZ_EXPIRE: 0                             # 统计数据过期时间 单位秒, 请输入整数 (无任何访问, 超过这个时间后, 统计数据将被清空, 0为不过期)
-      BSZ_SECRET: "bsz"                         # 签名密钥 // 请设置为任意长度的随机值
-      API_SERVER: http://127.0.0.1:8080/api     # 填写你的 API 地址
-      REDIS_ADDRESS: redis:6379                 # redis 地址
+      WEB_LOG: true                                     # 是否开启日志
+      WEB_DEBUG: false                                  # 是否开启debug模式
+      WEB_CORS: "*"                                     # 跨域访问
+      BSZ_EXPIRE: 0                                     # 统计数据过期时间 单位秒, 请输入整数 (无任何访问, 超过这个时间后, 统计数据将被清空, 0为不过期)
+      BSZ_SECRET: "bsz"                                 # 签名密钥 // 请设置为任意长度的随机值
+      API_SERVER: http://127.0.0.1:8080/api             # 填写你的 API 地址
+      API_JSONP_SERVER: http://127.0.0.1:8080/jsonp     # 填写你的 API 地址
+      REDIS_ADDRESS: redis:6379                         # redis 地址
       BSZ_PATHSTYLE: true
       BSZ_ENCRYPT: MD516
