@@ -1,14 +1,18 @@
 const path = require('path');
-const webpack = require('webpack');
+const glob = require('glob');
 
 module.exports = {
-    entry:'./busuanzi.ts',
-    output:{
-        filename:'busuanzi.js',
-        path: path.resolve(__dirname,'./')
+    entry: glob.sync('./*.ts').reduce((entries, file) => {
+        const name = path.basename(file, '.ts');
+        entries[name] = file;
+        return entries;
+    }, {}),
+    output: {
+        filename: '[name].js',
+        path: path.resolve(__dirname, './')
     },
     mode: 'production',
-    module:{
+    module: {
         rules: [{
             test: /\.tsx?$/,
             use: 'ts-loader',
