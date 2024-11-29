@@ -1,9 +1,12 @@
 package controller
 
 import (
+	"encoding/json"
+	"net/url"
+
 	"github.com/gin-gonic/gin"
 	"github.com/soxft/busuanzi/core"
-	"net/url"
+	"github.com/soxft/busuanzi/library/tool"
 )
 
 var defaultData = gin.H{
@@ -131,4 +134,41 @@ func GetHandler(c *gin.Context) {
 			"page_uv": counts.PageUv,
 		},
 	})
+}
+
+func JsonpHandler(c *gin.Context) {
+	c.Header("Content-Type", "application/javascript")
+
+	callback := c.Query("callback")
+	if callback == "" {
+		c.String(200, "try{console.error(%s)}catch{}", "missing callback parameter")
+		return
+	}
+
+	u, err := url.Parse(c.GetHeader("Referer"))
+	if err != nil {
+		c.String(200, "try{console.error(%s)}catch{}", "unable to parse referer")
+		return
+	} else if u.Host == "" {
+		c.String(200, "try{console.error(%s)}catch{}", "invalid referer")
+		return
+	}
+
+	var host = u.Host
+	var path = u.Path
+	counts := core.Count(c, host, path, tool.Md5(c.ClientIP()+c.Request.UserAgent()))
+
+	data := gin.H{
+		"site_pv": counts.SitePv,
+		"site_uv": counts.SiteUv,
+		"page_pv": counts.PagePv,
+		"page_uv": counts.PageUv,
+	}
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		c.String(200, "try{console.error(%s)}catch{}", "gen json failed")
+		return
+	}
+
+	c.String(200, "try{%s(%s);}catch(e){}", callback, string(jsonData))
 }
