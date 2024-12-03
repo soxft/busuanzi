@@ -32,7 +32,7 @@ func initRoute(r *gin.Engine) {
 		js.StaticFile("", config.DistPath+"/busuanzi.js")
 		js.StaticFile("/jsonp", config.DistPath+"/busuanzi.jsonp.js")
 		js.StaticFile("/lite", config.DistPath+"/busuanzi.lite.js")
-		js.StaticFile("/lite/pjax", config.DistPath+"/busuanzi.pjax.lite.js")
+		js.StaticFile("/lite_pjax", config.DistPath+"/busuanzi.pjax.lite.js")
 	}
 
 	r.NoRoute(middleware.Cache(), controller.Index)
