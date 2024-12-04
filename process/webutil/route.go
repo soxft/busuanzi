@@ -20,11 +20,7 @@ func initRoute(r *gin.Engine) {
 	r.GET("/jsonp", controller.JsonpHandler)
 	r.GET("/ping", controller.PingHandler)
 
-	static := r.Group("/")
-	{
-		static.Use(middleware.Cache())
-		static.GET("/", controller.Index)
-	}
+	r.GET("/", NoRouteHandler)
 
 	js := r.Group("js")
 	{
@@ -35,5 +31,9 @@ func initRoute(r *gin.Engine) {
 		js.StaticFile("/lite_pjax", config.DistPath+"/busuanzi.pjax.lite.js")
 	}
 
-	r.NoRoute(middleware.Cache(), controller.Index)
+	r.NoRoute(NoRouteHandler)
+}
+
+func NoRouteHandler(c *gin.Context) {
+	c.Redirect(302, "https://busuanzi.9420.ltd")
 }
