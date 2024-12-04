@@ -3,14 +3,15 @@ package webutil
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/url"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/soxft/busuanzi/app/middleware"
 	"github.com/soxft/busuanzi/config"
 	"github.com/soxft/busuanzi/process/redisutil"
 	"github.com/spf13/viper"
-	"log"
-	"net/url"
-	"os"
 )
 
 func Init() {
@@ -24,6 +25,11 @@ func Init() {
 	if viper.GetBool("web.log") {
 		r.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
 			refererRaw := param.Request.Referer()
+			xBszReferer := param.Request.Header.Get("x-bsz-referer")
+			if xBszReferer != "" {
+				refererRaw = xBszReferer
+			}
+
 			refererUrl, _ := url.Parse(refererRaw)
 			referer := refererUrl.Host
 			if referer == "" {
