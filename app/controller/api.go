@@ -141,16 +141,16 @@ func JsonpHandler(c *gin.Context) {
 
 	callback := c.Query("callback")
 	if callback == "" {
-		c.String(200, "try{console.error(%s)}catch{}", "missing callback parameter")
+		c.String(200, "try{console.error('%s')}catch{}", "missing callback parameter")
 		return
 	}
 
 	u, err := url.Parse(c.GetHeader("Referer"))
 	if err != nil {
-		c.String(200, "try{console.error(%s)}catch{}", "unable to parse referer")
+		c.String(200, "try{console.error('%s')}catch{}", "unable to parse referer")
 		return
 	} else if u.Host == "" {
-		c.String(200, "try{console.error(%s)}catch{}", "invalid referer")
+		c.String(200, "try{console.error('%s')}catch{}", "invalid referer")
 		return
 	}
 
@@ -166,7 +166,7 @@ func JsonpHandler(c *gin.Context) {
 	}
 	jsonData, err := json.Marshal(data)
 	if err != nil {
-		c.String(200, "try{console.error(%s)}catch{}", "gen json failed")
+		c.String(200, "try{console.error('%s')}catch{}", "gen json failed")
 		return
 	}
 
