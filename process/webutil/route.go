@@ -28,7 +28,7 @@ func initRoute(r *gin.Engine) {
 
 	js := r.Group("js")
 	{
-		static.Use(middleware.Cache())
+		js.Use(middleware.Cache())
 		js.StaticFile("", config.DistPath+"/busuanzi.js")
 		js.StaticFile("/jsonp", config.DistPath+"/busuanzi.jsonp.js")
 		js.StaticFile("/lite", config.DistPath+"/busuanzi.lite.js")
