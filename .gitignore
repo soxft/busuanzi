@@ -3,7 +3,7 @@ tmp
 build
 node_modules
 main
-data
+data/busuanzi.db
 .idea
 busuanzi
 *.rdb
