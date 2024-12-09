@@ -13,83 +13,100 @@ import (
 
 // LoadDataFromSQLite 从SQLite加载数据到Redis
 func LoadDataFromSQLite(ctx context.Context) error {
-	type Statistic struct {
+	// 加载站点统计数据
+	var siteStats []struct {
 		SiteUnique string
-		PathUnique string
 		SitePv     int64
 		SiteUv     int64
-		PagePv     int64
-		PageUv     int64
 	}
-
-	var statistics []Statistic
-	err := database.DB.WithContext(ctx).Table("statistics").Find(&statistics).Error
+	err := database.DB.WithContext(ctx).Table("site_statistics").Find(&siteStats).Error
 	if err != nil {
 		return err
 	}
 
-	for _, stat := range statistics {
-		siteUnique, pathUnique := stat.SiteUnique, stat.PathUnique
-		sitePv := stat.SitePv
-		pagePv := stat.PagePv
+	// 加载页面统计数据
+	var pageStats []struct {
+		SiteUnique string
+		PathUnique string
+		PagePv     int64
+		PageUv     int64
+	}
+	err = database.DB.WithContext(ctx).Table("page_statistics").Find(&pageStats).Error
+	if err != nil {
+		return err
+	}
 
+	_redis := redisutil.RDB
+	// 更新站点统计数据
+	for _, stat := range siteStats {
 		rk := RKeys{
-			SitePvKey: "bsz:site_pv:" + siteUnique,
-			SiteUvKey: "bsz:site_uv:" + siteUnique,
-			PagePvKey: "bsz:page_pv:" + siteUnique,
-			PageUvKey: "bsz:page_uv:" + siteUnique,
+			SitePvKey: "bsz:site_pv:" + stat.SiteUnique,
+			SiteUvKey: "bsz:site_uv:" + stat.SiteUnique,
 		}
-
-		// 更新Redis数据
-		_redis := redisutil.RDB
-		_redis.Set(ctx, rk.SitePvKey, sitePv, 0)
+		_redis.Set(ctx, rk.SitePvKey, stat.SitePv, 0)
 		_redis.PFAdd(ctx, rk.SiteUvKey, "1")
-		_redis.ZAdd(ctx, rk.PagePvKey, redis.Z{Score: float64(pagePv), Member: pathUnique})
+	}
+
+	// 更新页面统计数据
+	for _, stat := range pageStats {
+		rk := RKeys{
+			PagePvKey: "bsz:page_pv:" + stat.SiteUnique,
+			PageUvKey: "bsz:page_uv:" + stat.SiteUnique,
+		}
+		_redis.ZAdd(ctx, rk.PagePvKey, redis.Z{Score: float64(stat.PagePv), Member: stat.PathUnique})
 		_redis.PFAdd(ctx, rk.PageUvKey, "1")
-		// UV数据需要重新收集，这里只是占位
 	}
 	return nil
 }
 
 // SyncToSQLite 将Redis数据同步到SQLite
 func SyncToSQLite(ctx context.Context) error {
-	// 获取所有需要同步的键
 	_redis := redisutil.RDB
+	// 获取所有需要同步的站点
 	keys, err := _redis.Keys(ctx, "bsz:site_pv:*").Result()
 	if err != nil {
 		return err
 	}
 
 	for _, key := range keys {
-		// 解析site_unique
 		siteUnique := key[len("bsz:site_pv:"):]
 
-		// 获取相关的所有统计数据
+		// 获取站点统计数据
 		sitePv, _ := _redis.Get(ctx, "bsz:site_pv:"+siteUnique).Int64()
 		siteUv, _ := _redis.PFCount(ctx, "bsz:site_uv:"+siteUnique).Result()
 
+		// 更新站点统计数据
+		err = database.DB.Exec(`
+			INSERT INTO site_statistics (site_unique, site_pv, site_uv)
+			VALUES (?, ?, ?)
+			ON CONFLICT(site_unique) DO UPDATE SET
+			site_pv = ?,
+			site_uv = ?,
+			updated_at = CURRENT_TIMESTAMP
+		`, siteUnique, sitePv, siteUv, sitePv, siteUv).Error
+		if err != nil {
+			log.Printf("同步站点数据失败: %v", err)
+			continue
+		}
+
 		// 获取该站点的所有页面PV
 		pageData, _ := _redis.ZRangeWithScores(ctx, "bsz:page_pv:"+siteUnique, 0, -1).Result()
-
 		for _, data := range pageData {
 			pathUnique := data.Member.(string)
 			pagePv := int64(data.Score)
-			pageUv, _ := _redis.PFCount(ctx, "bsz:page_uv:"+siteUnique+":"+pathUnique).Result()
 
-			// 更新SQLite数据
+			// 更新页面统计数据
+			pageUv, _ := _redis.PFCount(ctx, "bsz:page_uv:"+siteUnique+":"+pathUnique).Result()
 			err = database.DB.Exec(`
-				INSERT INTO statistics (site_unique, path_unique, site_pv, site_uv, page_pv, page_uv)
-				VALUES (?, ?, ?, ?, ?, ?)
+				INSERT INTO page_statistics (site_unique, path_unique, page_pv, page_uv)
+				VALUES (?, ?, ?, ?)
 				ON CONFLICT(site_unique, path_unique) DO UPDATE SET
-				site_pv = ?,
-				site_uv = ?,
 				page_pv = ?,
 				page_uv = ?,
 				updated_at = CURRENT_TIMESTAMP
-			`, siteUnique, pathUnique, sitePv, siteUv, pagePv, pageUv,
-				sitePv, siteUv, pagePv, pageUv).Error
+			`, siteUnique, pathUnique, pagePv, pageUv, pagePv, pageUv).Error
 			if err != nil {
-				log.Printf("同步数据失败: %v", err)
+				log.Printf("同步页面数据失败: %v", err)
 			}
 		}
 	}

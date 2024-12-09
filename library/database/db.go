@@ -30,22 +30,35 @@ func InitDB(dbPath string) {
 		// 参见： https://github.com/glebarez/sqlite/issues/52
 		dbObj.SetMaxOpenConns(1)
 
-		// 创建统计表
+		// 创建站点统计表
 		err = DB.Exec(`
-			CREATE TABLE IF NOT EXISTS statistics (
+			CREATE TABLE IF NOT EXISTS site_statistics (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				site_unique TEXT NOT NULL,
-				path_unique TEXT NOT NULL,
+				site_unique TEXT NOT NULL UNIQUE,
 				site_pv INTEGER DEFAULT 0,
 				site_uv INTEGER DEFAULT 0,
-				page_pv INTEGER DEFAULT 0,
-				page_uv INTEGER DEFAULT 0,
-				updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				UNIQUE(site_unique, path_unique)
+				updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 			)
 		`).Error
 		if err != nil {
-			log.Fatalf("创建表失败: %v", err)
+			log.Fatalf("创建站点统计表失败: %v", err)
+		}
+
+		// 创建页面统计表
+		err = DB.Exec(`
+			CREATE TABLE IF NOT EXISTS page_statistics (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				site_unique TEXT NOT NULL,
+				path_unique TEXT NOT NULL,
+				page_pv INTEGER DEFAULT 0,
+				page_uv INTEGER DEFAULT 0,
+				updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+					UNIQUE(site_unique, path_unique),
+					FOREIGN KEY(site_unique) REFERENCES site_statistics(site_unique)
+			)
+		`).Error
+		if err != nil {
+			log.Fatalf("创建页面统计表失败: %v", err)
 		}
 	})
 }
