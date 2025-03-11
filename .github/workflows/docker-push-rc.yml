@@ -34,7 +34,6 @@ jobs:
           push: true
           tags: |
             xcsoft/busuanzi:${{ github.ref_name }}
-            xcsoft/busuanzi:latest
 
   github-docker:
     runs-on: ubuntu-latest
@@ -65,4 +64,3 @@ jobs:
           push: true
           tags: |
             ghcr.io/soxft/busuanzi:${{ github.ref_name }}
-            ghcr.io/soxft/busuanzi:latest
