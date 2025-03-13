@@ -1,6 +1,7 @@
 module github.com/soxft/busuanzi
 
 go 1.22.3
+toolchain go1.23.7
 
 require (
 	github.com/gin-gonic/gin v1.10.0
@@ -44,11 +45,11 @@ require (
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.10.0 // indirect
-	golang.org/x/crypto v0.31.0 // indirect
+	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0 // indirect
-	golang.org/x/net v0.29.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/net v0.36.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/text v0.22.0 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
