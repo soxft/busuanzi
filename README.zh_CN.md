@@ -13,11 +13,11 @@
 
 ## 安装
 
-支持多种运行方式: 源码编译运行, Docker 运行. 详见: [Install](https://github.com/soxft/busuanzi/wiki/install)
+支持多种运行方式: 源码编译运行, Docker 运行. 详见: [安装方法](https://gitee.com/soxft/busuanzi/wikis/install)
 
 ## 使用方式
 
-支持多种自定义属性, 兼容 pjax 网页, 支持自定义 标签前缀. 详见: [使用文档](https://github.com/soxft/busuanzi/wiki/usage)
+支持多种自定义属性, 兼容 pjax 网页, 支持自定义 标签前缀. 详见: [使用文档](https://gitee.com/soxft/busuanzi/wikis/usage)
 
 ## 原理
 
@@ -33,16 +33,16 @@
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
 
 
-## 数据迁移
-
-- 可使用 [busuanzi-sync](https://github.com/soxft/busuanzi-sync) 工具迁移[原版不蒜子](http://busuanzi.ibruce.info)的数据
-
 ## 其他
 
 Logo 由 ChatGPT 设计
+
+## 数据迁移
+
+- 可使用 [busuanzi-sync](https://gitee.com/soxft/busuanzi-sync) 工具迁移[原版不蒜子](http://busuanzi.ibruce.info)的数据
 
 ## 升级建议
 
 - 请务必在升级前备份数据 (dump.rdb)
 - 新老版本数据可能并不兼容, 请注意 Release 界面的说明, 谨慎升级
-- 2.5.x - 2.7.x 可以使用 [bsz-transfer](https://github.com/soxft/busuanzi-transfer) 工具进行数据迁移至 2.8.x
+- 2.5.x - 2.7.x 可以使用 [bsz-transfer](https://gitee.com/soxft/busuanzi-transfer) 工具进行数据迁移至 2.8.x
