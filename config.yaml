@@ -3,16 +3,20 @@ Web:
   Cors: "https://xsot.cn,https://google.com" # 跨域访问
   Debug: false # 是否开启debug模式
   Log: false # 是否开启日志
+Database:
+  Type: redis     # 数据库类型: redis 或 sqlite
+  Prefix: bsz     # 数据库前缀
 Redis:
   Address: redis:6379 # redis地址
   Password:
   Database: 0
   TLS: false      # 是否使用TLS连接redis
-  Prefix: bsz     # redis前缀
   MaxIdle: 25     # 最大空闲连接数
   MaxActive: 100  # 最大连接数
   MinIdle: 25     # 最小空闲连接数
   MaxRetries: 3   # 最大重试次数
+SQLite:
+  Path: ./busuanzi.db  # SQLite数据库文件路径
 Bsz:
   Expire: 0        # 统计数据过期时间 单位秒, 请输入整数 (无任何访问, 超过这个时间后, 统计数据将被清空, 0为不过期)
   Secret: "bsz"    # JWT签名密钥 // 请设置为任意长度的随机值

@@ -3,31 +3,29 @@ package core
 import (
 	"context"
 	"github.com/soxft/busuanzi/library/tool"
-	"github.com/soxft/busuanzi/process/redisutil"
+	"github.com/soxft/busuanzi/process/dbutil"
 	"github.com/spf13/viper"
 	"strings"
 )
 
 // Count
-// @description return and count the number of users in the redis
+// @description return and count the number of users in the database
 func Count(ctx context.Context, host string, path string, userIdentity string) Counts {
-	_redis := redisutil.RDB
-
 	rk := getKeys(host, path)
 
-	// sitePV and pagePV 使用 Str / Zset 存储
-	sitePv, _ := _redis.Incr(ctx, rk.SitePvKey).Result()
-	pagePv, _ := _redis.ZIncrBy(ctx, rk.PagePvKey, 1, rk.PathUnique).Result()
+	// sitePV and pagePV
+	sitePv, _ := dbutil.DB.IncrSitePv(ctx, rk.SiteUnique)
+	pagePv, _ := dbutil.DB.IncrPagePv(ctx, rk.SiteUnique, rk.PathUnique)
 
-	// siteUv 和 pageUv 使用 HyperLogLog 存储
-	_redis.PFAdd(ctx, rk.SiteUvKey, userIdentity)
-	_redis.PFAdd(ctx, rk.PageUvKey, userIdentity)
+	// siteUv and pageUv
+	dbutil.DB.AddSiteUv(ctx, rk.SiteUnique, userIdentity)
+	dbutil.DB.AddPageUv(ctx, rk.SiteUnique, rk.PathUnique, userIdentity)
 
 	// count siteUv and pageUv
-	siteUv, _ := _redis.PFCount(ctx, rk.SiteUvKey).Result()
-	pageUv, _ := _redis.PFCount(ctx, rk.PageUvKey).Result()
+	siteUv, _ := dbutil.DB.CountSiteUv(ctx, rk.SiteUnique)
+	pageUv, _ := dbutil.DB.CountPageUv(ctx, rk.SiteUnique, rk.PathUnique)
 
-	// setExpire
+	// setExpire (only for Redis)
 	go setExpire(rk.SiteUvKey, rk.PageUvKey, rk.SitePvKey, rk.PagePvKey)
 
 	return Counts{
@@ -41,38 +39,34 @@ func Count(ctx context.Context, host string, path string, userIdentity string) C
 // Put
 // @description put data only
 func Put(ctx context.Context, host string, path string, userIdentity string) {
-	_redis := redisutil.RDB
-
 	rk := getKeys(host, path)
 
-	// sitePV and pagePV 使用 Str / Zset 存储
-	_redis.Incr(ctx, rk.SitePvKey)
-	_redis.ZIncrBy(ctx, rk.PagePvKey, 1, rk.PathUnique)
+	// sitePV and pagePV
+	dbutil.DB.IncrSitePv(ctx, rk.SiteUnique)
+	dbutil.DB.IncrPagePv(ctx, rk.SiteUnique, rk.PathUnique)
 
-	// siteUv 和 pageUv 使用 HyperLogLog 存储
-	_redis.PFAdd(ctx, rk.SiteUvKey, userIdentity)
-	_redis.PFAdd(ctx, rk.PageUvKey, userIdentity)
+	// siteUv and pageUv
+	dbutil.DB.AddSiteUv(ctx, rk.SiteUnique, userIdentity)
+	dbutil.DB.AddPageUv(ctx, rk.SiteUnique, rk.PathUnique, userIdentity)
 
-	// setExpire
+	// setExpire (only for Redis)
 	go setExpire(rk.SiteUvKey, rk.PageUvKey, rk.SitePvKey, rk.PagePvKey)
 	return
 }
 
 // Get bsz counts
 func Get(ctx context.Context, host string, path string) Counts {
-	_redis := redisutil.RDB
-
 	rk := getKeys(host, path)
 
-	// sitePV and pagePV 使用 Str / Zset 存储
-	sitePv, _ := _redis.Get(ctx, rk.SitePvKey).Int64()
-	pagePv, _ := _redis.ZScore(ctx, rk.PagePvKey, rk.PathUnique).Result()
+	// sitePV and pagePV
+	sitePv, _ := dbutil.DB.GetSitePv(ctx, rk.SiteUnique)
+	pagePv, _ := dbutil.DB.GetPagePv(ctx, rk.SiteUnique, rk.PathUnique)
 
 	// count siteUv and pageUv
-	siteUv, _ := _redis.PFCount(ctx, rk.SiteUvKey).Result()
-	pageUv, _ := _redis.PFCount(ctx, rk.PageUvKey).Result()
+	siteUv, _ := dbutil.DB.CountSiteUv(ctx, rk.SiteUnique)
+	pageUv, _ := dbutil.DB.CountPageUv(ctx, rk.SiteUnique, rk.PathUnique)
 
-	// setExpire
+	// setExpire (only for Redis)
 	go setExpire(rk.SiteUvKey, rk.PageUvKey, rk.SitePvKey, rk.PagePvKey)
 
 	return Counts{
@@ -105,7 +99,7 @@ func getKeys(host string, path string) RKeys {
 		pathUnique = tool.Md5(pathUnique)
 	}
 
-	redisPrefix := viper.GetString("redis.prefix")
+	redisPrefix := viper.GetString("database.prefix")
 
 	siteUvKey := strings.Join([]string{redisPrefix, "site_uv", siteUnique}, ":")
 	pageUvKey := strings.Join([]string{redisPrefix, "page_uv", siteUnique, pathUnique}, ":")
