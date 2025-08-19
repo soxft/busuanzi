@@ -21,9 +21,34 @@
 
 ## 原理
 
-- `Busuanzi` 使用 Redis 进行数据存储与检索。Redis 作为内存数据库拥有极高的读写性能，同时其独特的`RDB`与`AOF`持久化方式，使得 Redis 的数据安全得到保障。
+- `Busuanzi` 支持使用 Redis 和 SQLite 进行数据存储与检索。
+- Redis 作为内存数据库拥有极高的读写性能，同时其独特的`RDB`与`AOF`持久化方式，使得 Redis 的数据安全得到保障。
+- SQLite 提供轻量级、无服务器的数据库选项，非常适合小型部署或不想管理单独Redis服务器的场景。
 
-- UV 与 PV 数据分别采用以下方式进行存储:
+### 数据库配置
+
+您可以通过设置 `Database.Type` 配置来选择 Redis 和 SQLite：
+
+```yaml
+Database:
+  Type: redis     # 使用 'redis' 表示 Redis，'sqlite' 表示 SQLite
+  Prefix: bsz     # 数据库前缀
+
+# Redis 配置 (当 Type: redis 时)
+Redis:
+  Address: redis:6379
+  Password: 
+  Database: 0
+  # ... 其他 Redis 设置
+
+# SQLite 配置 (当 Type: sqlite 时)  
+SQLite:
+  Path: ./busuanzi.db  # SQLite 数据库文件路径
+```
+
+### 数据存储
+
+使用 Redis 时，UV 与 PV 数据分别采用以下方式进行存储:
 
 | index  | 数据类型        | key                               |
 |--------|-------------|-----------------------------------|
@@ -31,6 +56,15 @@
 | siteUv | HyperLogLog | bsz:site_uv:md5(host)             |
 | pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
+
+使用 SQLite 时，数据存储在以下表中：
+
+| 表名    | 用途                    | 字段                                 |
+| ------- | ---------------------- | ------------------------------------ |
+| site_pv | 站点页面浏览量          | site_key, count                     |
+| page_pv | 页面浏览量              | site_key, path_key, count           |
+| site_uv | 站点独立访客            | site_key, user_hash                 |
+| page_uv | 页面独立访客            | site_key, path_key, user_hash       |
 
 
 ## 其他

@@ -29,9 +29,34 @@ Supports multiple custom attributes, compatible with pjax web pages, supports cu
 
 ## Principle
 
-- `Busuanzi` uses Redis for data storage and retrieval. Redis, as an in-memory database, has extremely high read and write performance. At the same time, its unique RDB and AOF persistence mechanisms ensure the security of Redis data.
+- `Busuanzi` supports both Redis and SQLite for data storage and retrieval. 
+- Redis, as an in-memory database, has extremely high read and write performance. At the same time, its unique RDB and AOF persistence mechanisms ensure the security of Redis data.
+- SQLite provides a lightweight, serverless database option that's perfect for smaller deployments or when you don't want to manage a separate Redis server.
 
-UV and PV data are stored in the following keys:
+### Database Configuration
+
+You can choose between Redis and SQLite by setting the `Database.Type` configuration:
+
+```yaml
+Database:
+  Type: redis     # Use 'redis' for Redis, 'sqlite' for SQLite
+  Prefix: bsz     # Database prefix
+
+# Redis configuration (when Type: redis)
+Redis:
+  Address: redis:6379
+  Password: 
+  Database: 0
+  # ... other Redis settings
+
+# SQLite configuration (when Type: sqlite)  
+SQLite:
+  Path: ./busuanzi.db  # SQLite database file path
+```
+
+### Data Storage
+
+When using Redis, UV and PV data are stored in the following keys:
 
 | index  | Types       | key                               |
 | ------ | ----------- | --------------------------------- |
@@ -39,6 +64,15 @@ UV and PV data are stored in the following keys:
 | siteUv | HyperLogLog | bsz:site_uv:md5(host)             |
 | pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
+
+When using SQLite, data is stored in the following tables:
+
+| Table   | Purpose                    | Columns                              |
+| ------- | -------------------------- | ------------------------------------ |
+| site_pv | Site page views           | site_key, count                     |
+| page_pv | Page views per path       | site_key, path_key, count           |
+| site_uv | Site unique visitors      | site_key, user_hash                 |
+| page_uv | Page unique visitors      | site_key, path_key, user_hash       |
 
 ## Data Migration
 
