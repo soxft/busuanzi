@@ -32,6 +32,34 @@
 | pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
 
+## SQLite 持久化
+
+Busuanzi 可以按照指定的时间间隔，将 Redis 中的 PV、UV 与 HyperLogLog 数据自动快照到
+SQLite 数据库文件中，便于长期保存与快速恢复。所有配置项均支持使用环境变量覆盖：
+
+| 配置项 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `Persistence.Enable` | bool | `false` | 是否开启后台快照任务 |
+| `Persistence.DBPath` | string | `data/busuanzi.db` | SQLite 数据库文件路径 |
+| `Persistence.Interval` | number | `300` | 快照间隔（秒） |
+| `Persistence.RestoreOnStart` | bool | `false` | 启动时是否自动恢复最近一次快照 |
+
+快照会保存每个统计键当前的数值、序列化的 HyperLogLog 数据以及剩余 TTL。恢复快照时
+会用存储的数据覆盖 Redis 中对应的键。
+
+### 快照数据映射
+
+不同的 Redis 数据类型会按下表映射到 SQLite `snapshots` 表中：
+
+| Redis 键 | Redis 类型 | SQLite 字段 | 说明 |
+| --- | --- | --- | --- |
+| `site_pv` | 字符串计数器 | `count` | 直接保存站点 PV 的整数值。 |
+| `site_uv` | HyperLogLog | `count`, `payload` | `payload` 中保存 `DUMP` 返回的原始二进制，并以十六进制编码。 |
+| `page_pv` | ZSet | `count`, `payload` | `payload` 是 `{path_unique,count}` 组成的 JSON 数组，用于恢复排名明细。 |
+| `page_uv` | HyperLogLog | `count`, `payload` | 与 `site_uv` 相同的序列化方式。 |
+
+`ttl_ms` 字段会记录剩余的过期时间（毫秒，永不过期时为 `0`），以便在恢复时继续保持 Redis 的 TTL 语义。
+
 
 ## 其他
 

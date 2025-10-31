@@ -40,6 +40,36 @@ UV and PV data are stored in the following keys:
 | pagePv | ZSet        | bsz:page_pv:md5(host) / md5(path) |
 | pageUv | HyperLogLog | bsz:site_uv:md5(host):md5(path)   |
 
+## SQLite persistence
+
+Busuanzi can periodically snapshot Redis data into a SQLite database in order to keep
+long term history or recover from Redis failures. The following configuration options
+control the behaviour (all values can also be provided via environment variables):
+
+| key | type | default | description |
+| --- | --- | --- | --- |
+| `Persistence.Enable` | bool | `false` | Enable background SQLite snapshots. |
+| `Persistence.DBPath` | string | `data/busuanzi.db` | Path to the SQLite database file. |
+| `Persistence.Interval` | number | `300` | Snapshot interval in seconds. |
+| `Persistence.RestoreOnStart` | bool | `false` | Restore the most recent snapshot during startup. |
+
+Snapshots include PV, UV and HyperLogLog states. Restoring a snapshot replaces the
+corresponding Redis keys using the stored values and TTL information.
+
+### Snapshot payload mapping
+
+Each Redis data type is normalised into the SQLite `snapshots` table as follows:
+
+| Redis key | Redis type | SQLite fields | Notes |
+| --- | --- | --- | --- |
+| `site_pv` | String counter | `count` | The plain integer PV value. |
+| `site_uv` | HyperLogLog | `count`, `payload` | `payload` stores the raw bytes returned by `DUMP`, encoded as hexadecimal. |
+| `page_pv` | ZSet | `count`, `payload` | `payload` is a JSON array of `{path_unique,count}` pairs so that the ranking can be restored. |
+| `page_uv` | HyperLogLog | `count`, `payload` | Same as `site_uv`. |
+
+The `ttl_ms` column stores the remaining key lifetime in milliseconds (or `0` for keys without an expiration) so that the Redis
+TTL semantics are preserved when restoring a snapshot.
+
 ## Data Migration
 
 - You can use the [busuanzi-sync](https://github.com/soxft/busuanzi-sync) tool to sync data from the [original busuanzi](http://busuanzi.ibruce.info) to the self-hosted busuanzi.
