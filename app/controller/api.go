@@ -45,8 +45,11 @@ func ApiHandler(c *gin.Context) {
 	var host = u.Host
 	var path = u.Path
 
+	// 解析 scope 参数，默认为 all
+	scope := core.Scope(c.DefaultQuery("scope", "all"))
+
 	// count
-	counts := core.Count(c, host, path, c.GetString("user_identity"))
+	counts := core.CountWithScope(c, host, path, c.GetString("user_identity"), scope)
 
 	// json
 	c.JSON(200, gin.H{
@@ -81,8 +84,11 @@ func PutHandler(c *gin.Context) {
 	var host = u.Host
 	var path = u.Path
 
+	// 解析 scope 参数，默认为 all
+	scope := core.Scope(c.DefaultQuery("scope", "all"))
+
 	// count
-	go core.Put(c, host, path, c.GetString("user_identity"))
+	go core.PutWithScope(c, host, path, c.GetString("user_identity"), scope)
 
 	// json
 	c.Status(204)
@@ -156,7 +162,11 @@ func JsonpHandler(c *gin.Context) {
 
 	var host = u.Host
 	var path = u.Path
-	counts := core.Count(c, host, path, tool.Md5(c.ClientIP()+c.Request.UserAgent()))
+
+	// 解析 scope 参数，默认为 all
+	scope := core.Scope(c.DefaultQuery("scope", "all"))
+
+	counts := core.CountWithScope(c, host, path, tool.Md5(c.ClientIP()+c.Request.UserAgent()), scope)
 
 	data := gin.H{
 		"site_pv": counts.SitePv,

@@ -31,3 +31,12 @@ type expireQueue struct {
 	Queue chan string
 	Cache cmap.ConcurrentMap[string, time.Time]
 }
+
+// Scope 定义统计范围类型
+type Scope string
+
+const (
+	ScopeAll  Scope = "all"  // 更新所有统计（默认，向后兼容）
+	ScopeSite Scope = "site" // 仅更新站点统计（site_pv, site_uv）
+	ScopePage Scope = "page" // 仅更新页面统计（page_pv, page_uv）
+)
